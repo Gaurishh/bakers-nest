@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProduct} from "../../actions/productActions.js";
 import Loading from "../Loading.js";
 import Error from '../Error.js';
+import axios from "axios";
 
 function AddProduct() {
 
@@ -11,14 +12,47 @@ function AddProduct() {
   const [image, setImage] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Brownies');
+  const [uploading, setUploading] = useState(false);
+  const [imagePreview, setImagePreview] = useState('');
 
   const dispatch = useDispatch()
 
   const addProductState = useSelector(state => state.addProductReducer)
   const {success, error, loading} = addProductState
 
+  // Handle image file selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+      uploadImage(file);
+    }
+  };
+
+  // Upload image to Cloudinary
+  const uploadImage = async (file) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/upload/upload-image', formData);
+      setImage(response.data.imageUrl);
+      setUploading(false);
+    } catch (error) {
+      console.error('Upload failed:', error);
+      setUploading(false);
+      alert('Image upload failed. Please try again.');
+    }
+  };
+
   function formHandler(e){
     e.preventDefault();
+    
+    if (!image) {
+      alert('Please upload an image first');
+      return;
+    }
 
     const product = {name, image, description, category, prices: [], varients: []};
     if(category === "Brownies"){
@@ -65,7 +99,31 @@ function AddProduct() {
 
         <form onSubmit={formHandler} className="col-md-6 mx-auto">
           <input className="form-control" type="text" placeholder="Name" value={name} onChange={(e) => {setName(e.target.value)}}/>
-          <input className="form-control" type="text" placeholder="Image URL" value={image} onChange={(e) => {setImage(e.target.value)}}/>
+          
+          {/* Image Upload Section */}
+          <div className="mb-3">
+            <input 
+              className="form-control" 
+              type="file" 
+              accept="image/*"
+              onChange={handleImageChange}
+              disabled={uploading}
+            />
+            {uploading && <small className="text-muted">Uploading...</small>}
+          </div>
+
+          {/* Image Preview */}
+          {imagePreview && (
+            <div className="mb-3">
+              <img 
+                src={imagePreview} 
+                alt="Preview" 
+                style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'cover' }}
+                className="border rounded"
+              />
+            </div>
+          )}
+
           <input className="form-control" type="text" placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value)}}/>
           <select className="form-control w-100 mt-2" value={category} onChange={(e)=>setCategory(e.target.value)}>
             <option value="Brownies">Brownies</option>
@@ -93,7 +151,9 @@ function AddProduct() {
           {category === "Fudge" && <>
           <input className="form-control" type="text" placeholder="10 pieces" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          <button className="btn mt-4" type="submit">Add Product</button>
+          <button className="btn mt-4" type="submit" disabled={uploading || !image}>
+            {uploading ? 'Uploading...' : 'Add Product'}
+          </button>
         </form>
 
     </div>

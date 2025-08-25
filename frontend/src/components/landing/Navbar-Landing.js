@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Logo4 from "../../Assets/Logo4.jpg";
 import { HiOutlineBars3 } from "react-icons/hi2/index.esm.js";
 import Box from "@mui/material/Box/index.js";
@@ -17,10 +18,24 @@ import styles from '../../LandingPage.module.css';
 
 const LandingNavbar = (props) => {
   const [openMenu, setOpenMenu] = useState(false);
+  const navigate = useNavigate();
 
   const scrollFunction = (elementRef) => {
     window.scrollTo({top: elementRef.current.offsetTop, behavior: 'smooth'});
   }
+
+  const handleShopNow = (e) => {
+    e.preventDefault();
+    // Simple button animation
+    const button = e.currentTarget;
+    button.style.transform = 'scale(0.95)';
+    button.style.transition = 'transform 0.2s ease-in-out';
+    
+    setTimeout(() => {
+      button.style.transform = 'scale(1)';
+      navigate('/shop');
+    }, 200);
+  };
 
   const menuOptions = [
     {
@@ -50,8 +65,8 @@ const LandingNavbar = (props) => {
         <a href='#' onClick={(e) => {scrollFunction(props.home); e.preventDefault()}}>Home</a>
         <a href='#' onClick={(e) => {scrollFunction(props.about); e.preventDefault()}}>About</a>
         <a href='#' onClick={(e) => {scrollFunction(props.contact); e.preventDefault()}}>Contact</a>
-        <button className={styles.primaryButton} id={styles.removed}>
-          <a href="/shop" target="_blank" rel="noreferrer" style={{marginRight: 0}}>Shop now</a>
+        <button className={styles.primaryButton} id={styles.removed} onClick={handleShopNow}>
+          <span style={{marginRight: 0}}>Shop now</span>
         </button>
       </div>
 
@@ -71,9 +86,9 @@ const LandingNavbar = (props) => {
               </ListItem>
             ))}
             <ListItem key="Shop now" disablePadding style={{marginTop: '1rem'}}>
-              <ListItemButton id={styles.removed}>
+              <ListItemButton id={styles.removed} onClick={handleShopNow}>
                 <ListItemIcon><FiArrowRight /></ListItemIcon>
-                <a href="/shop" target="_blank" rel="noreferrer">Shop now</a> 
+                <span>Shop now</span>
               </ListItemButton>
             </ListItem>
           </List>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { editProduct, getProductById } from '../../actions/productActions.js';
 import Loading from "../Loading.js";
 import Error from '../Error.js';
+import axios from "axios";
 
 const EditProduct = (props) => {
 
@@ -13,6 +14,8 @@ const EditProduct = (props) => {
     const [image, setImage] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('Brownies');
+    const [uploading, setUploading] = useState(false);
+    const [imagePreview, setImagePreview] = useState('');
 
     const getProductByIdState = useSelector(state => state.getProductByIdReducer);
 
@@ -29,12 +32,39 @@ const EditProduct = (props) => {
           setImage(product.image);
           setCategory(product.category);
           setVarient1Price(product.prices[0][product.varients[0]]);
+          setImagePreview(product.image); // Set preview to current image
         }
         else{
           dispatch(getProductById(props.id))
         }
 
     }, [product, dispatch, props.id])
+
+    // Handle image file selection
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImagePreview(URL.createObjectURL(file));
+            uploadImage(file);
+        }
+    };
+
+    // Upload image to Cloudinary
+    const uploadImage = async (file) => {
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const response = await axios.post('http://localhost:8000/api/upload/upload-image', formData);
+            setImage(response.data.imageUrl);
+            setUploading(false);
+        } catch (error) {
+            console.error('Upload failed:', error);
+            setUploading(false);
+            alert('Image upload failed. Please try again.');
+        }
+    };
     
     function formHandler(e){
       e.preventDefault();
@@ -89,7 +119,31 @@ const EditProduct = (props) => {
 
         <form onSubmit={formHandler} className="col-md-6 mx-auto">
           <input className="form-control" type="text" placeholder="Name" value={name} onChange={(e) => {setName(e.target.value)}}/>
-          <input className="form-control" type="text" placeholder="Image URL" value={image} onChange={(e) => {setImage(e.target.value)}}/>
+          
+          {/* Image Upload Section */}
+          <div className="mb-3">
+            <input 
+              className="form-control" 
+              type="file" 
+              accept="image/*"
+              onChange={handleImageChange}
+              disabled={uploading}
+            />
+            {uploading && <small className="text-muted">Uploading...</small>}
+          </div>
+
+          {/* Image Preview */}
+          {imagePreview && (
+            <div className="mb-3">
+              <img 
+                src={imagePreview} 
+                alt="Preview" 
+                style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'cover' }}
+                className="border rounded"
+              />
+            </div>
+          )}
+
           <input className="form-control" type="text" placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value)}}/>
           <select className="form-control w-100 mt-2" value={category} onChange={(e)=>setCategory(e.target.value)}>
             <option value="Brownies">Brownies</option>
@@ -117,7 +171,9 @@ const EditProduct = (props) => {
           {category === "Fudge" && <>
           <input className="form-control" type="text" placeholder="10 pieces" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          <button className="btn mt-4" type="submit">Edit Product</button>
+          <button className="btn mt-4" type="submit" disabled={uploading}>
+            {uploading ? 'Uploading...' : 'Edit Product'}
+          </button>
         </form>
 
     </div>

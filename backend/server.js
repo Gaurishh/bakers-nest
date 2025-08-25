@@ -18,9 +18,11 @@ app.use(express.json()); // To parse JSON request bodies
 // Routes
 const productsRoute = require("./routes/productsRoute");
 const ordersRoute = require("./routes/ordersRoute");
+const uploadRoute = require("./routes/uploadRoute");
 
 app.use("/api/products", productsRoute);
 app.use("/api/orders", ordersRoute);
+app.use("/api/upload", uploadRoute);
 
 // Port configuration should be set before using it
 const port = process.env.PORT || 8000;

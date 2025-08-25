@@ -3,6 +3,7 @@ import Loading from "../Loading.js";
 import Error from "../Error.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts, deleteProduct, productVisibility } from "../../actions/productActions.js";
+import { Modal, Button } from "react-bootstrap";
 
 const ProductsList = (props) => {
   const dispatch = useDispatch();
@@ -10,9 +11,34 @@ const ProductsList = (props) => {
   // console.log(productsState)
   const { products, error, loading } = productsState;
 
+  // State for delete confirmation modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
+
+  // Handle delete button click - show confirmation modal
+  const handleDeleteClick = (product) => {
+    setProductToDelete(product);
+    setShowDeleteModal(true);
+  };
+
+  // Handle actual deletion after confirmation
+  const handleConfirmDelete = () => {
+    if (productToDelete) {
+      dispatch(deleteProduct(productToDelete._id));
+      setShowDeleteModal(false);
+      setProductToDelete(null);
+    }
+  };
+
+  // Handle modal close
+  const handleCloseModal = () => {
+    setShowDeleteModal(false);
+    setProductToDelete(null);
+  };
 
   return (
     <div className="App">
@@ -44,7 +70,7 @@ const ProductsList = (props) => {
                   </td>
                   <td>{product.category}</td>
                   <td>
-                    <i className="fa fa-trash m-1" onClick = {() => {dispatch(deleteProduct(product._id))}} style={{cursor:'pointer'}}></i>
+                    <i className="fa fa-trash m-1" onClick={() => handleDeleteClick(product)} style={{cursor:'pointer'}}></i>
                     <i className="fa fa-edit m-1" onClick={() => {props.fnctn(product._id)}} style={{cursor:'pointer'}}></i>
                     {product.show && <i class="fa fa-eye ml-10" aria-hidden="true" onClick={ () => {dispatch(productVisibility(product._id, false))}} style={{cursor:'pointer'}}></i>}
                     {!product.show && <i class="fa fa-eye-slash" aria-hidden="true" onClick={() => {dispatch(productVisibility(product._id, true))}} style={{cursor:'pointer'}}></i>}
@@ -55,6 +81,26 @@ const ProductsList = (props) => {
           </tbody>
         </table>
       </div>}
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete <strong>"{productToDelete?.name}"</strong>?
+          <br />
+          <small className="text-muted">This action cannot be undone.</small>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleConfirmDelete}>
+            Delete Product
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

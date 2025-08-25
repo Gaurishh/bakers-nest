@@ -68,6 +68,51 @@ input{
   text-align: center;
 }
 
+/* Fade-in animation for all routes */
+.route-fade-in {
+  animation: fadeIn 0.7s ease-in-out;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page transition classes */
+.page-enter {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.page-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.page-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.page-exit-active {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Additional transition effects for specific routes */
+.shop-transition {
+  animation: slideInFromRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -87,12 +87,27 @@ nav {
   font-size: 1.1rem;
   cursor: pointer;
   font-weight: 600;
-  transition: 0.2s;
+  transition: all 0.3s ease-in-out;
+  transform: scale(1);
+}
+
+.primaryButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.primaryButton:active {
+  transform: scale(0.95);
 }
 
 .primaryButton svg {
   margin-left: 0.75rem;
   font-size: 1.5rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.primaryButton:hover svg {
+  transform: translateX(5px);
 }
 
 .contactButton {
@@ -142,10 +157,6 @@ nav {
 
 .navbarCartIcon {
   font-size: 1.15rem;
-}
-
-.primaryButton:hover {
-  background-color: rgb(234, 234, 234);
 }
 
 .navbarMenuContainer svg {

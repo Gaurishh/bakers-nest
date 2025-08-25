@@ -8,6 +8,8 @@ import { Button } from "react-bootstrap";
 
 // Get the backend API URL from environment variable
 const API_BASE_URL = process.env.REACT_BACKEND_APP_API_URL || 'http://localhost:8000';
+// Get Razorpay credentials from environment variables
+const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
 
 const Checkout = (props) => {
 
@@ -17,13 +19,11 @@ const Checkout = (props) => {
   const {loading, error, success} = orderState
   const cartState = useSelector((state) => state.cartReducer)
 
-  console.log(cartState);
-
   const dispatch = useDispatch()
 
   const initPayment = async (data) => {
     const options = {
-      key: "rzp_live_PPGiyZHJeSUhQb",
+      key: RAZORPAY_KEY_ID,
       amount: data.amount,
       currency: data.currency,
       name: "Cart Items",
@@ -33,7 +33,12 @@ const Checkout = (props) => {
         dispatch({type: 'PLACE_ORDER_REQUEST'})
         try {
           const verifyUrl = `${API_BASE_URL}/api/orders/verify`;
-          await axios.post(verifyUrl, {response: response, user: user, cartItems: cartState.cartItems, amount: props.subtotal});
+          await axios.post(verifyUrl, {
+            response: response, 
+            user: user, 
+            cartItems: cartState.cartItems, 
+            calculatedAmount: data.calculatedAmount
+          });
           dispatch({type: 'PLACE_ORDER_SUCCESS'})
           dispatch({type: "EMPTY_CART"})
         } catch (error) {
@@ -51,10 +56,11 @@ const Checkout = (props) => {
   }
 
   const handlePayment = async () => {
-
     try {
       const orderUrl = `${API_BASE_URL}/api/orders/placeOrder`;
-      const {data} = await axios.post(orderUrl, {amount: props.subtotal})
+      const {data} = await axios.post(orderUrl, {
+        cartItems: cartState.cartItems
+      })
       initPayment(data.data)
     } catch (error) {
       dispatch({type: 'PLACE_ORDER_FAILED'})

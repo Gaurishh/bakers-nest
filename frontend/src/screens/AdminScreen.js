@@ -43,12 +43,60 @@ function AdminScreen() {
     <div className="App">
         <Navbar />
         <div className='row justify-content-center'>
-            <div className='col-md-10'>
-                <ul className='adminFunctions'>
-                    <li><Link onClick={() => setPanel('1')}>Products</Link></li>
-                    <li><Link onClick={() => setPanel('2')}>Add New Product</Link></li>
-                    <li><Link onClick={() => setPanel('3')}>Orders</Link></li>
-                </ul>
+            <div className='col-md-6'>
+                <div className='d-flex justify-content-between align-items-center mb-4'>
+                    <button 
+                        className="admin-btn"
+                        onClick={() => setPanel('1')}
+                        style={{ 
+                            flex: '0 0 auto', 
+                            margin: '0 auto',
+                            backgroundColor: panel === '1' ? '#343a40' : 'transparent',
+                            color: panel === '1' ? 'white' : '#343a40',
+                            border: '2px solid #343a40',
+                            minWidth: '120px',
+                            borderRadius: '5px',
+                            padding: '8px 16px',
+                            fontWeight: '500'
+                        }}
+                    >
+                        Products
+                    </button>
+                    <button 
+                        className="admin-btn"
+                        onClick={() => setPanel('2')}
+                        style={{ 
+                            flex: '0 0 auto', 
+                            margin: '0 auto',
+                            backgroundColor: panel === '2' ? '#343a40' : 'transparent',
+                            color: panel === '2' ? 'white' : '#343a40',
+                            border: '2px solid #343a40',
+                            minWidth: '120px',
+                            borderRadius: '5px',
+                            padding: '8px 16px',
+                            fontWeight: '500'
+                        }}
+                    >
+                        Add New Product
+                    </button>
+                    <button 
+                        className="admin-btn"
+                        onClick={() => setPanel('3')}
+                        style={{ 
+                            flex: '0 0 auto', 
+                            margin: '0 auto',
+                            backgroundColor: panel === '3' ? '#343a40' : 'transparent',
+                            color: panel === '3' ? 'white' : '#343a40',
+                            border: '2px solid #343a40',
+                            minWidth: '120px',
+                            borderRadius: '5px',
+                            padding: '8px 16px',
+                            fontWeight: '500'
+                        }}
+                    >
+                        Orders
+                    </button>
+                </div>
             </div>
         </div>
 

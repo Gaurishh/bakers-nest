@@ -22,9 +22,11 @@ const Navbar = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg shadow-lg p-3 mb-5 bg-white rounded navbar-font">
-        <Link to="/shop" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
           <img className="navbar-logo " src="https://i.imgur.com/o3dRG0z.jpg" alt="Baker's Nest Logo" />
-          Baker's Nest
+        </Link>
+        <Link to="/shop" style={{ textDecoration: "none", color: "black" }}>
+          Baker's Nest Store
         </Link>
         <button
           className="navbar-toggler"

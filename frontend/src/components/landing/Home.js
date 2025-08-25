@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import BannerBackground from "../../Assets/home-banner-background.png";
 import BannerImage2 from "../../Assets/home-banner-image2.jpg";
 import { WhatsApp } from '@mui/icons-material';
@@ -9,6 +9,19 @@ import { FiArrowRight } from "react-icons/fi/index.esm.js";
 import styles from '../../LandingPage.module.css';
 
 const Home = React.forwardRef((props, ref) => {
+  const navigate = useNavigate();
+
+  const handleShopNow = () => {
+    // Simple button animation
+    const button = document.querySelector(`.${styles.primaryButton}`);
+    button.style.transform = 'scale(0.95)';
+    button.style.transition = 'transform 0.2s ease-in-out';
+    
+    setTimeout(() => {
+      button.style.transform = 'scale(1)';
+      navigate('/shop');
+    }, 200);
+  };
 
   return (
     <>
@@ -26,10 +39,13 @@ const Home = React.forwardRef((props, ref) => {
       <div className={styles.homeTextSection}>
         <h1 style={{fontWeight: "bold"}} className={styles.primaryHeading}>Baker's Nest - Homemade Delights</h1>
         <p className={styles.primaryText}>At Baker's Nest, we believe that every day should begin and end with something sweet. Our artisanal bakery is a haven for those who crave the delightful symphony of flavors and the comforting aroma of freshly baked treats.</p>
-        <button style={{fontSize: "24px", backgroundColor: "#ff3030", color: "white", fontWeight: "bold"}} className={styles.primaryButton} id={styles.removed}>
-          <Link to="/shop" target="_blank">
-            Shop now
-          </Link>
+        <button 
+          style={{fontSize: "24px", backgroundColor: "#ff3030", color: "white", fontWeight: "bold"}} 
+          className={styles.primaryButton} 
+          id={styles.removed}
+          onClick={handleShopNow}
+        >
+          Shop now
           <FiArrowRight />
         </button>
         <p className={styles.primaryText2}><a style={{textDecoration: "none", color: "black"}} href="https://wa.me/c/918595714343" target="_blank" rel="noreferrer">...or Order through <p style={{color: "#25D366", display: "inline", fontSize: "23px"}}>WhatApp <WhatsApp /></p></a></p>

@@ -11,8 +11,6 @@ const CartScreen = () => {
   const cartState = useSelector((state) => state.cartReducer);
   const cartItems = cartState.cartItems;
 
-  console.log(cartItems)
-
   const orderState = useSelector((state) => state.placeOrderReducer)
   const {success, error} = orderState
 
@@ -102,7 +100,7 @@ const CartScreen = () => {
                 {isAuthenticated ? (
                   <>
                   {(!success && !error) && <h2 style={{fontSize: "40px"}}>Total: {subTotal} /-</h2>}
-                    <Checkout cartItems={cartItems} subtotal={subTotal} />
+                    <Checkout cartItems={cartItems} />
                     {(!success && !error) && <>
                       <p style={{fontStyle: "italic", marginTop: "20px"}}>Note: As of now, we are not doing deliveries, and upon placement of order, you will be provided the address at which you can pick up the order.</p>
                       <p style={{fontStyle: "italic"}}>We are situated in Sector 57, Gurgaon</p>

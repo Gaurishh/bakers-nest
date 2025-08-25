@@ -3,16 +3,48 @@ const router = express.Router();
 const RazorPay = require("razorpay");
 const crypto = require("crypto");
 const Order = require('../models/orderModel');
+const Product = require('../models/productModel');
 
 router.post("/placeOrder", async (req, res) => {
     try {
+        const { cartItems } = req.body;
+        
+        if (!cartItems || !Array.isArray(cartItems)) {
+            return res.status(400).json({ message: "Cart items are required" });
+        }
+
+        let totalAmount = 0;
+        
+        // Calculate total amount by fetching product prices from database
+        for (const item of cartItems) {
+            try {
+                const product = await Product.findById(item._id);
+                if (!product) {
+                    return res.status(400).json({ message: `Product with ID ${item._id} not found` });
+                }
+                
+                const variantPrice = product.prices[0][item.varient];
+                // console.log("hi");
+                // console.log(variantPrice);
+                const itemTotal = variantPrice * item.quantity;
+                totalAmount += itemTotal;
+                
+            } catch (error) {
+                console.log(`Error processing product ${item._id}:`, error);
+                return res.status(500).json({ message: "Error processing product information" });
+            }
+        }
+
+        // console.log(totalAmount);
+        // console.log(cartItems);
+
         const instance = new RazorPay({
-            key_id: process.env.KEY_ID,
-            key_secret: process.env.KEY_SECRET,
+            key_id: process.env.RAZORPAY_KEY_ID,
+            key_secret: process.env.RAZORPAY_KEY_SECRET
         });
 
         const options = {
-            amount: req.body.amount * 100,
+            amount: totalAmount * 100, // Convert to paise
             currency: "INR",
             receipt: crypto.randomBytes(10).toString("hex"),
         }
@@ -22,7 +54,10 @@ router.post("/placeOrder", async (req, res) => {
                 console.log(error);
                 return res.status(500).json({message: "Something went wrong!"});
             }
-            res.status(200).json({data: order});
+            res.status(200).json({
+                data: order,
+                calculatedAmount: totalAmount
+            });
         })
     } catch (error) {
         console.log(error);
@@ -32,11 +67,11 @@ router.post("/placeOrder", async (req, res) => {
 
 router.post("/verify", async(req, res) => {
     try {        
-        const {response, user, cartItems, amount} = req.body;
+        const {response, user, cartItems, calculatedAmount} = req.body;
         const {razorpay_payment_id, razorpay_order_id, razorpay_signature} = response;
 
         const sign = razorpay_order_id + "|" + razorpay_payment_id;
-        const expectedSign = crypto.createHmac("sha256", process.env.KEY_SECRET).update(sign.toString()).digest("hex");
+        const expectedSign = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET).update(sign.toString()).digest("hex");
 
         if(razorpay_signature === expectedSign){
             const neworder = new Order({
@@ -44,7 +79,7 @@ router.post("/verify", async(req, res) => {
                 email : user.email,
                 userId : user.email,
                 orderItems : cartItems , 
-                orderAmount : amount,
+                orderAmount : calculatedAmount,
                 transactionId : razorpay_payment_id
             })
             
