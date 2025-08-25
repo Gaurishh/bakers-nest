@@ -8,7 +8,8 @@ import { Auth0Provider } from '@auth0/auth0-react';
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-const shopUri = process.env.REACT_FRONTEND_APP_API_URL || "https://bakers-nest.onrender.com/shop";
+const frontend_uri = process.env.REACT_APP_FRONTEND_URL || 'https://bakers-nest.onrender.com';
+const shopUri = `${frontend_uri}/shop`;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
