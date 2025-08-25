@@ -56,7 +56,7 @@ const EditProduct = (props) => {
         formData.append('image', file);
 
         try {
-            const response = await axios.post('http://localhost:8000/api/upload/upload-image', formData);
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000'}/api/upload/upload-image`, formData);
             setImage(response.data.imageUrl);
             setUploading(false);
         } catch (error) {

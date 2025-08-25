@@ -7,7 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "react-bootstrap";
 
 // Get the backend API URL from environment variable
-const API_BASE_URL = process.env.REACT_BACKEND_APP_API_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 // Get Razorpay credentials from environment variables
 const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
 
