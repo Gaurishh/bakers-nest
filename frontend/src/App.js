@@ -1,6 +1,6 @@
 import './App.css';
 // import bootstrap from '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter, Route, Routes, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import HomeScreen from './screens/HomeScreen.js';
 import CartScreen from './screens/CartScreen.js';
 import OrdersScreen from './screens/OrdersScreen.js';

@@ -1,8 +1,7 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";  // Import Link from react-router-dom
-import Filter from "../components/Filter.js";
 
 const email1 = process.env.REACT_APP_EMAIL1;
 const email2 = process.env.REACT_APP_EMAIL2;

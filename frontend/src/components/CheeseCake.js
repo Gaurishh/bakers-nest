@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addToCart } from "../actions/cartActions.js";
 
 const CheeseCake = (props) => {
@@ -28,6 +28,7 @@ const CheeseCake = (props) => {
           className="img-fluid"
           style={{ height: "200px", width: "200px" }}
           loading="lazy"
+          alt={props.cheeseCake.name}
         />
       </div>
 
@@ -81,7 +82,7 @@ const CheeseCake = (props) => {
         </Modal.Header>
 
         <Modal.Body>
-          <img src={props.cheeseCake.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} />
+          <img src={props.cheeseCake.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.cheeseCake.name} />
           <p>{props.cheeseCake.description}</p>
         </Modal.Body>
 

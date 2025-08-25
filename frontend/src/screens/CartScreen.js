@@ -6,7 +6,6 @@ import { deleteFromCart } from "../actions/cartActions.js";
 import Checkout from "../components/Checkout.js";
 import Navbar from '../components/Navbar.js';
 import Success from '../components/Success.js';
-import Error from '../components/Error.js';
 
 const CartScreen = () => {
   const cartState = useSelector((state) => state.cartReducer);
@@ -19,7 +18,7 @@ const CartScreen = () => {
 
   var subTotal = cartItems.reduce((x, item) => x + item.price, 0);
 
-  const {isAuthenticated, logout, isLoading } = useAuth0();
+  const {isAuthenticated, isLoading } = useAuth0();
 
   const dispatch = useDispatch();
 
@@ -28,7 +27,7 @@ const CartScreen = () => {
       <Navbar />
       {success && <Success success='Order placed successfully' />}
       {!success && <div className="row justify-content-center">
-        {cartItems.length == 0 ? <h1 style={{fontSize: "2.5rem"}}>The cart is empty!</h1> : <div className="col-md-6">
+        {cartItems.length === 0 ? <h1 style={{fontSize: "2.5rem"}}>The cart is empty!</h1> : <div className="col-md-6">
           <h2 style={{ fontSize: "40px", marginBottom: "50px" }}>My Cart</h2>
           {cartItems.map((item) => {
             return (
@@ -57,7 +56,7 @@ const CartScreen = () => {
                     className="fa fa-minus"
                     aria-hidden="true"
                     onClick={() => {
-                      if (item.quantity == 1) {
+                      if (item.quantity === 1) {
                         dispatch(deleteFromCart(item));
                       } else {
                         dispatch(
@@ -74,6 +73,7 @@ const CartScreen = () => {
                   <img
                     src={item.image}
                     style={{ height: "110px", width: "110px", borderRadius: "10px" }}
+                    alt={item.name}
                   />
                 </div>
                 <div className="m-1 w-100">
@@ -91,7 +91,7 @@ const CartScreen = () => {
         </div>}
         
 
-        {(cartItems.length != 0 && isLoading) ? (
+        {(cartItems.length !== 0 && isLoading) ? (
           <div className="col-md-4"><h2 style={{fontSize: "40px"}}>Loading...</h2></div>
         ) : (
           <div className="col-md-4">

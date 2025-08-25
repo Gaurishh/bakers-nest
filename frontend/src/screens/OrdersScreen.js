@@ -1,7 +1,6 @@
 import React , {useEffect} from 'react'
 import {useDispatch , useSelector} from 'react-redux'
 import { getUserOrders } from '../actions/orderActions.js';
-import Error from "../components/Error.js";
 import Loading from "../components/Loading.js";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -14,17 +13,12 @@ const Ordersscreen = () => {
     AOS.init()
     const dispatch = useDispatch()
     const orderstate = useSelector(state=>state.getUserOrdersReducer)
-    const {orders , error , loading} = orderstate
-
-    var flag = 0;
+    const {orders, loading} = orderstate
 
     useEffect(() => {
-        if(flag==1){
-            dispatch(getUserOrders(user))
-        }
-    }, [dispatch, user, flag])
+        dispatch(getUserOrders(user))
+    }, [dispatch, user])
 
-    flag = 1;
     return (
         <div className="App">
             <Navbar />

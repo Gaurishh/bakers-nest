@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from "react";
-import AdminScreen from "../../screens/AdminScreen.js";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { addProduct} from "../../actions/productActions.js";
-import { useDispatch, useSelector } from "react-redux";
 import Loading from "../Loading.js";
 import Error from '../Error.js';
 

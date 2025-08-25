@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Loading from "../Loading.js";
 import Error from "../Error.js";
-import Filter from "../Filter.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts, deleteProduct, productVisibility } from "../../actions/productActions.js";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addToCart } from "../actions/cartActions.js";
 
 const JumboCookie = (props) => {
@@ -28,6 +28,7 @@ const JumboCookie = (props) => {
           className="img-fluid"
           style={{ height: "200px", width: "200px" }}
           loading="lazy"
+          alt={props.jumboCookie.name}
         />
       </div>
 
@@ -81,7 +82,7 @@ const JumboCookie = (props) => {
         </Modal.Header>
 
         <Modal.Body>
-          <img src={props.jumboCookie.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} />
+          <img src={props.jumboCookie.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.jumboCookie.name} />
           <p>{props.jumboCookie.description}</p>
         </Modal.Body>
 

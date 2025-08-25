@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Product = require('../models/productModel');
-const { models } = require("../db");
 
 router.get("/getallproducts", async (req, res) => {
     try {
@@ -40,8 +39,6 @@ router.post("/addproduct", async (req, res) => {
             varients: product.varients
         })
 
-        console.log(newProduct);
-    
         await newProduct.save()
         res.send("New Product added successfully!")
     } catch (error) {
@@ -73,8 +70,6 @@ router.post("/editproduct", async (req, res) => {
         product.prices = editedProduct.prices
         product.varients = editedProduct.varients
 
-        console.log(product);
-
         await product.save();
 
         res.send("Product edited successfully!")
@@ -90,7 +85,6 @@ router.post("/productvisibility", async (req, res) => {
     try {
         const product = await Product.findOne({_id: productId}).exec();
         product.show = value
-        console.log(product);
 
         await product.save();
 

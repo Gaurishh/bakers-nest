@@ -47,11 +47,11 @@ const LandingNavbar = (props) => {
       </div>
 
       <div className={styles.navbarLinksContainer}>
-        <a href='' onClick={(e) => {scrollFunction(props.home); e.preventDefault()}}>Home</a>
-        <a href='' onClick={(e) => {scrollFunction(props.about); e.preventDefault()}}>About</a>
-        <a href='' onClick={(e) => {scrollFunction(props.contact); e.preventDefault()}}>Contact</a>
+        <a href='#' onClick={(e) => {scrollFunction(props.home); e.preventDefault()}}>Home</a>
+        <a href='#' onClick={(e) => {scrollFunction(props.about); e.preventDefault()}}>About</a>
+        <a href='#' onClick={(e) => {scrollFunction(props.contact); e.preventDefault()}}>Contact</a>
         <button className={styles.primaryButton} id={styles.removed}>
-          <a href="/shop" target="_blank" style={{marginRight: 0}}>Shop now</a>
+          <a href="/shop" target="_blank" rel="noreferrer" style={{marginRight: 0}}>Shop now</a>
         </button>
       </div>
 
@@ -73,7 +73,7 @@ const LandingNavbar = (props) => {
             <ListItem key="Shop now" disablePadding style={{marginTop: '1rem'}}>
               <ListItemButton id={styles.removed}>
                 <ListItemIcon><FiArrowRight /></ListItemIcon>
-                <a href="/shop" target="_blank" >Shop now</a> 
+                <a href="/shop" target="_blank" rel="noreferrer">Shop now</a> 
               </ListItemButton>
             </ListItem>
           </List>

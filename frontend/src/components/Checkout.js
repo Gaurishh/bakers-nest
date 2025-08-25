@@ -6,6 +6,9 @@ import Error from "./Error.js";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "react-bootstrap";
 
+// Get the backend API URL from environment variable
+const API_BASE_URL = process.env.REACT_BACKEND_APP_API_URL || 'http://localhost:8000';
+
 const Checkout = (props) => {
 
   const {user} = useAuth0();
@@ -29,8 +32,8 @@ const Checkout = (props) => {
       handler: async(response) => {
         dispatch({type: 'PLACE_ORDER_REQUEST'})
         try {
-          const verifyUrl = "https://bakers-nest.onrender.com/api/orders/verify";
-          const {data} = await axios.post(verifyUrl, {response: response, user: user, cartItems: cartState.cartItems, amount: props.subtotal});
+          const verifyUrl = `${API_BASE_URL}/api/orders/verify`;
+          await axios.post(verifyUrl, {response: response, user: user, cartItems: cartState.cartItems, amount: props.subtotal});
           dispatch({type: 'PLACE_ORDER_SUCCESS'})
           dispatch({type: "EMPTY_CART"})
         } catch (error) {
@@ -50,7 +53,7 @@ const Checkout = (props) => {
   const handlePayment = async () => {
 
     try {
-      const orderUrl = "https://bakers-nest.onrender.com/api/orders/placeOrder";
+      const orderUrl = `${API_BASE_URL}/api/orders/placeOrder`;
       const {data} = await axios.post(orderUrl, {amount: props.subtotal})
       initPayment(data.data)
     } catch (error) {

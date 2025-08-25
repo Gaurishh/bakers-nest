@@ -1,0 +1,31 @@
+services:
+  # Backend API Service
+  - type: web
+    name: bakers-nest-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    rootDir: backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8000
+      - key: MONGODB_URI
+        sync: false # Set this manually in Render dashboard
+    healthCheckPath: /ping
+    autoDeploy: true
+
+  # Frontend Static Site
+  - type: web
+    name: bakers-nest-frontend
+    env: static
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    rootDir: frontend
+    envVars:
+      - key: REACT_BACKEND_APP_API_URL
+        sync: false # Set this manually in Render dashboard
+    autoDeploy: true

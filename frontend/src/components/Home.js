@@ -32,7 +32,7 @@ const Home = React.forwardRef((props, ref) => {
           </Link>
           <FiArrowRight />
         </button>
-        <p className={styles.primaryText2}><a style={{textDecoration: "none", color: "black"}} href="https://wa.me/c/918595714343" target="_blank">...or Order through <p style={{color: "#25D366", display: "inline", fontSize: "23px"}}>WhatApp <WhatsApp /></p></a></p>
+        <p className={styles.primaryText2}><a style={{textDecoration: "none", color: "black"}} href="https://wa.me/c/918595714343" target="_blank" rel="noreferrer">...or Order through <p style={{color: "#25D366", display: "inline", fontSize: "23px"}}>WhatApp <WhatsApp /></p></a></p>
         <p style={{marginLeft: "15px", marginTop: "0px"}} className={styles.primaryText2}>(8595714343)</p>
       </div>
 

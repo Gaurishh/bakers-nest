@@ -1,8 +1,6 @@
 import React from "react";
 import AboutBackground from "../Assets/about-background.png";
 import AboutBackgroundImage2 from "../Assets/about-background-image2.jpg";
-import { BsFillPlayCircleFill } from "react-icons/bs/index.esm.js";
-import { useRef } from "react";
 
 import styles from '../LandingPage.module.css';
  

@@ -1,14 +1,12 @@
 {
-  "homepage": "https://gaurishh.github.io/mern-food-ordering",
-  "name": "mern-food-ordering",
+  "name": "bakers-nest-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend API for Baker's Nest",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "dev": "nodemon server.js",
+    "build": "echo 'No build step needed for Node.js'"
   },
   "author": "",
   "license": "ISC",
@@ -19,16 +17,13 @@
     "express": "^4.18.2",
     "mongoose": "^7.6.9",
     "razorpay": "^2.9.2",
-    "router": "^1.3.8",
     "stripe": "^14.2.0",
     "uuid": "^9.0.1"
   },
   "engines": {
     "node": ">=18"
   },
-  "proxy": "http://localhost:8000/",
   "devDependencies": {
-    "gh-pages": "^6.0.0",
     "nodemon": "^3.1.9"
   }
 }

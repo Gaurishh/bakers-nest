@@ -8,11 +8,15 @@ mongoose.connect(mongoURL, {useUnifiedTopology: true, useNewUrlParser: true});
 var db = mongoose.connection;
 
 db.on('connected', ()=>{
-    console.log('Database connected successfully.');
+    console.log('✅ Database connected successfully.');
 })
 
-db.on('error', ()=>{
-    console.log('MongoDB connection failed');
+db.on('error', (error)=>{
+    console.log('❌ MongoDB connection failed:', error);
+})
+
+db.on('disconnected', ()=>{
+    console.log('🔌 MongoDB disconnected');
 })
 
 module.exports = mongoose;

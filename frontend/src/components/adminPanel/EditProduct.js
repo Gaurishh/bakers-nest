@@ -23,7 +23,7 @@ const EditProduct = (props) => {
 
     useEffect(() => {
 
-        if(product && (product._id == props.id)){
+        if(product && (product._id === props.id)){
           setName(product.name);
           setDescription(product.description);
           setImage(product.image);
@@ -34,7 +34,7 @@ const EditProduct = (props) => {
           dispatch(getProductById(props.id))
         }
 
-    }, [product, dispatch])
+    }, [product, dispatch, props.id])
     
     function formHandler(e){
       e.preventDefault();
@@ -99,22 +99,22 @@ const EditProduct = (props) => {
             <option value="Jumbo Cookie">Jumbo Cookie</option>
             <option value="Fudge">Fudge</option>
           </select>
-          {category==="Brownies" && <>
+          {category === "Brownies" && <>
           <input className="form-control" type="text" placeholder="1 Brownie" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          {category==="Tub Cake" && <>
+          {category === "Tub Cake" && <>
           <input className="form-control" type="text" placeholder="1 Tub Cake Price" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          {category==="Dry Cake" && <>
+          {category === "Dry Cake" && <>
           <input className="form-control" type="text" placeholder="1 Dry Cake Price" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          {category==="Cheese Cake" && <>
+          {category === "Cheese Cake" && <>
           <input className="form-control" type="text" placeholder="1 Cheese Cake Price" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          {category==="Jumbo Cookie" && <>
+          {category === "Jumbo Cookie" && <>
           <input className="form-control" type="text" placeholder="1 Jumbo Cookie Price" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          {category==="Fudge" && <>
+          {category === "Fudge" && <>
           <input className="form-control" type="text" placeholder="10 pieces" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
           <button className="btn mt-4" type="submit">Edit Product</button>
