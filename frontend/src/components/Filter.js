@@ -1,25 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { filterProducts } from "../actions/productActions.js";
+
 export default function Filter() {
     const dispatch = useDispatch()
     const[searchkey , setsearchkey] = useState('')
     const[category , setcategory] = useState('All')
+    
     return (
         <div className='container'>
-            <div className="row justify-content-center shadow-lg p-3 mx-auto bg-white rounded">
-                <div className="col-12 col-md-3 mb-2">
+            <div className="row justify-content-center shadow-lg p-3 mx-auto bg-white rounded w-75 w-md-75 w-lg-50">
+                <div className="col-12 mb-3">
                     <input
                         onChange={(e)=>{setsearchkey(e.target.value)}}
                         value={searchkey} 
                         type="text" 
-                        className="form-control w-100" 
+                        className="form-control" 
                         placeholder="Search Products"
                     />
                 </div>
-                <div className="col-12 col-md-3 mb-2">
+                <div className="col-12 mb-3">
                     <select 
-                        className="form-control w-100" 
+                        className="form-control" 
                         value={category} 
                         onChange={(e)=>setcategory(e.target.value)}
                     >
@@ -32,9 +34,9 @@ export default function Filter() {
                         <option value="Fudge">Fudge</option>
                     </select>
                 </div>
-                <div className="col-12 col-md-3 mb-2">
+                <div className="col-12">
                     <button 
-                        className='btn w-100' 
+                        className='btn btn-primary w-100' 
                         onClick={()=>{dispatch(filterProducts(searchkey , category))}}
                     >
                         FILTER

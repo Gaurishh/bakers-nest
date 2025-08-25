@@ -3,32 +3,52 @@ import { Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../actions/cartActions.js";
 
-const TubCake = (props) => {
+const ProductCard = ({ product, ...props }) => {
+  // Determine default variant based on product category
+  const getDefaultVariant = (category) => {
+    switch (category) {
+      case "Brownies":
+        return "1 Brownie";
+      case "Tub Cake":
+        return "1 Tub Cake";
+      case "Dry Cake":
+        return "1 Dry Cake";
+      case "Cheese Cake":
+        return "1 Jar/Cup";
+      case "Jumbo Cookie":
+        return "1 Jumbo Cookie";
+      case "Fudge":
+        return "10 pieces";
+      default:
+        return "Pack of 4";
+    }
+  };
+
   const [quantity, setQuantity] = useState(1);
-  const [varient, setVariant] = useState("1 Tub Cake");
+  const [varient, setVariant] = useState(getDefaultVariant(product.category));
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  
   const dispatch = useDispatch();
 
   const addtocart = () => {
-    dispatch(addToCart(props.tubCake, quantity, varient))
+    dispatch(addToCart(product, quantity, varient))
   }
 
   return (
-    <div
+     <div
       className="shadow-lg p-3 mb-5 bg-white rounded"
     >
       <div onClick={handleShow}>
-        <h1>{props.tubCake.name}</h1>
+        <h1>{product.name}</h1>
         <img
-          src={props.tubCake.image}
+          src={product.image}
           className="img-fluid"
           style={{ height: "200px", width: "200px" }}
           loading="lazy"
-          alt={props.tubCake.name}
+          alt={product.name}
         />
       </div>
 
@@ -42,9 +62,8 @@ const TubCake = (props) => {
               setVariant(e.target.value)
             }}
           >
-
-            {props.tubCake.varients.map((variantItem) => {
-              return <option value={variantItem}>{variantItem}</option>
+            {product.varients.map((variantItem) => {
+              return <option key={variantItem} value={variantItem}>{variantItem}</option>
             })}
           </select>
         </div>
@@ -59,7 +78,7 @@ const TubCake = (props) => {
             }}
           >
             {[...Array(10).keys()].map((x, i) => {
-              return <option value={i + 1}>{i + 1}</option>;
+              return <option key={i + 1} value={i + 1}>{i + 1}</option>;
             })}
           </select>
         </div>
@@ -68,7 +87,7 @@ const TubCake = (props) => {
       <div className="flex-container">
         <div className="m-10 w-100">
           <h1 className="mt-1">
-            Price: {props.tubCake.prices[0][varient] * quantity} Rs/-
+            Price: {product.prices[0][varient] * quantity} Rs/-
           </h1>
         </div>
         <div className="m-10 w-100">
@@ -78,12 +97,12 @@ const TubCake = (props) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.tubCake.name}</Modal.Title>
+          <Modal.Title>{product.name}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <img src={props.tubCake.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.tubCake.name} />
-          <p>{props.tubCake.description}</p>
+          <img src={product.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={product.name} />
+          <p>{product.description}</p>
         </Modal.Body>
 
         <Modal.Footer>
@@ -96,4 +115,4 @@ const TubCake = (props) => {
   );
 };
 
-export default TubCake;
+export default ProductCard;

@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsByPage } from '../actions/productActions.js';
-import Brownie from '../components/products/Brownie.js';
-import TubCake from '../components/products/TubCake.js';
-import DryCake from '../components/products/DryCake.js';
-import CheeseCake from '../components/products/CheeseCake.js';
-import JumboCookie from '../components/products/JumboCookie.js';
-import Fudge from '../components/products/Fudge.js';
+import ProductCard from '../components/products/ProductCard.js';
 import Loading from '../components/Loading.js';
 import Error from '../components/Error.js';
 import Filter from "../components/Filter.js";
@@ -67,12 +62,7 @@ const HomeScreen = () => {
             {products.map(product => (
               product.show && 
               <div className='col-md-3 m-3' key={product._id}>
-                {product.category === "Brownies" && <Brownie brownie={product} />}
-                {product.category === "Tub Cake" && <TubCake tubCake={product} />}
-                {product.category === "Dry Cake" && <DryCake dryCake={product} />}
-                {product.category === "Cheese Cake" && <CheeseCake cheeseCake={product} />}
-                {product.category === "Jumbo Cookie" && <JumboCookie jumboCookie={product} />}
-                {product.category === "Fudge" && <Fudge fudge={product} />}
+                <ProductCard product={product} />
               </div>
             ))}
             {loading && skip !== 0 && <Loading />}

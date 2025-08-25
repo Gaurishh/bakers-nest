@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Logo4 from "../Assets/Logo4.jpg";
+import Logo4 from "../../Assets/Logo4.jpg";
 import { HiOutlineBars3 } from "react-icons/hi2/index.esm.js";
 import Box from "@mui/material/Box/index.js";
 import Drawer from "@mui/material/Drawer/index.js";
@@ -13,7 +13,7 @@ import PhonePausedRounded from "@mui/icons-material/PhoneRounded.js";
 import { FiArrowRight } from 'react-icons/fi/index.esm.js';
 import { ListItemIcon } from '@mui/material';
 
-import styles from '../LandingPage.module.css';
+import styles from '../../LandingPage.module.css';
 
 const LandingNavbar = (props) => {
   const [openMenu, setOpenMenu] = useState(false);
