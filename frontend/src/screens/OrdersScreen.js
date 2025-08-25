@@ -185,11 +185,11 @@ const Ordersscreen = () => {
                                                             {order._id}
                                                         </p>
                                                     </div>
-                                                </div>
-                                            </div>
                                         </div>
-                                    </div>
                                 </div>
+                                </div>
+                            </div>
+                    </div>
                             ))}
                         </div>
                     ) : (
