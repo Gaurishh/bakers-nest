@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-var mongoURL = 'mongodb+srv://gaurish:bhavya@cluster0.3iqbaxu.mongodb.net/mern-bakers-nest';
+// Use environment variable for MongoDB URL, with localhost fallback for development
+var mongoURL = process.env.MONGODB_URI || 'mongodb://localhost:27017/bakers-nest';
 
 mongoose.connect(mongoURL, {useUnifiedTopology: true, useNewUrlParser: true});
 
