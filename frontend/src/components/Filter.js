@@ -7,28 +7,39 @@ export default function Filter() {
     const[category , setcategory] = useState('All')
     return (
         <div className='container'>
-            <div className="w-50 row justify-content-center shadow-lg p-3 mx-auto bg-white rounded">
-
-                    <div className="col-md-3 w-100">
-                      <input
-                      onChange={(e)=>{setsearchkey(e.target.value)}}
-                      value={searchkey} type="text" className="form-control w-100" placeholder="Search Products"/>
-                    </div>
-                    <div className="col-md-3 w-100">
-                        <select className="form-control w-100 mt-2" value={category} onChange={(e)=>setcategory(e.target.value)}>
-                            <option value="All">All</option>
-                            <option value="Brownies">Brownies</option>
-                            <option value="Tub Cake">Tub Cakes</option>
-                            <option value="Dry Cake">Dry Cakes</option>
-                            <option value="Cheese Cake">Cheese Cakes</option>
-                            <option value="Jumbo Cookie">Jumbo Cookies</option>
-                            <option value="Fudge">Fudges</option>
-                        </select>
-                    </div>
-                    <div className="col-md-3 w-100">
-                       <button className='btn w-100 mt-2' onClick={()=>{dispatch(filterProducts(searchkey , category))}}>FILTER</button>
-                    </div>
-
+            <div className="row justify-content-center shadow-lg p-3 mx-auto bg-white rounded">
+                <div className="col-12 col-md-3 mb-2">
+                    <input
+                        onChange={(e)=>{setsearchkey(e.target.value)}}
+                        value={searchkey} 
+                        type="text" 
+                        className="form-control w-100" 
+                        placeholder="Search Products"
+                    />
+                </div>
+                <div className="col-12 col-md-3 mb-2">
+                    <select 
+                        className="form-control w-100" 
+                        value={category} 
+                        onChange={(e)=>setcategory(e.target.value)}
+                    >
+                        <option value="All">All</option>
+                        <option value="Brownies">Brownies</option>
+                        <option value="Tub Cake">Tub Cake</option>
+                        <option value="Dry Cake">Dry Cake</option>
+                        <option value="Cheese Cake">Cheese Cake</option>
+                        <option value="Jumbo Cookie">Jumbo Cookie</option>
+                        <option value="Fudge">Fudge</option>
+                    </select>
+                </div>
+                <div className="col-12 col-md-3 mb-2">
+                    <button 
+                        className='btn w-100' 
+                        onClick={()=>{dispatch(filterProducts(searchkey , category))}}
+                    >
+                        FILTER
+                    </button>
+                </div>
             </div>
         </div>
     )
