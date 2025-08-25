@@ -1,0 +1,23 @@
+.header{
+    color: white;
+    font-size: 3rem;
+    /* text-align: center; */
+    background-color: #ff3030;
+    max-width: 75%;
+    margin: auto;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+.textContent{
+    border: black;
+    max-width: 75%;
+    margin: auto;
+    background-color: #e2d0d0;
+    padding: 1rem;
+}
+
+.logo {
+    border-radius: 50%;
+    width: 200px;
+}

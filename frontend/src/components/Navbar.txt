@@ -1,0 +1,3 @@
+width = 250 decides how much space would the menu occupy on mobile devices.
+
+role = "presentation" makes it so, that screen-readers will treat every element as "Text element" rather than 'heading, image, etc..'. but if the elements are focusbale, then the semantics won't be removed at all.

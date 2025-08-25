@@ -1,0 +1,539 @@
+.Landing *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Reem Kufi", sans-serif !important;
+}
+
+#removed a{
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.footer{
+  text-decoration: none !important;
+  color: black !important;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+.Landing {
+  min-height: 100vh;
+  width: 85vw;
+  max-width: 1900px;
+  margin: 0rem auto;
+}
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #f6f6f6;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 90px;
+}
+
+.homeContainer2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#homepageImage {
+  border-radius: 75%;
+}
+
+.homeImageContainer {
+  /* flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; */
+  width: 47%;
+}
+
+.logo {
+  border-radius: 50%;
+  width: 150px;
+}
+
+.navbarMenuContainer {
+  display: none;
+}
+
+.navbarLinksContainer a {
+  margin-right: 3rem;
+  text-decoration: none;
+  color: black;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.primaryButton {
+  padding: 0.9rem 1.75rem;
+  background-color: white;
+  /* outline: none; */
+  border: none;
+  border-radius: 5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.primaryButton svg {
+  margin-left: 0.75rem;
+  font-size: 1.5rem;
+}
+
+.contactButton {
+  margin-left: 1rem;
+  padding: 1rem 3rem;
+  /* background-color: #ff3030; */
+  background-color: #ff3030;
+  outline: none;
+  border: none;
+  border-radius: 5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondaryButton {
+  padding: 1rem 3rem;
+  margin-bottom: 1rem;
+  /* background-color: #ff3030; */
+  background-color: #25d366;
+  outline: none;
+  border: none;
+  border-radius: 5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondaryButton svg {
+  margin-left: 0.75rem;
+  font-size: 2rem;
+}
+
+.secondaryButton:hover {
+  background-color: #25d366;
+}
+
+.navbarCartIcon {
+  font-size: 1.15rem;
+}
+
+.primaryButton:hover {
+  background-color: rgb(234, 234, 234);
+}
+
+.navbarMenuContainer svg {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.homeBannerContainer {
+  position: relative;
+  display: flex;
+  padding-top: 3rem;
+}
+
+.homeBannerImageContainer {
+  position: absolute;
+  top: -100px;
+  right: -170px;
+  z-index: -2;
+  max-width: 700px;
+}
+
+.homeImageSection {
+  max-width: 600px;
+  flex: 1;
+}
+
+.homeTextSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.primaryHeading {
+  font-size: clamp(2rem, 4vw, 4rem);
+  color: #4c4c4c;
+  /* line-height: 5rem; */
+  max-width: 600px;
+}
+
+.primaryText {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  max-width: 500px;
+  color: #6a6a6a;
+  margin: 1.5rem 0rem;
+}
+
+.primaryText2 {
+  font-style: italic;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  max-width: 500px;
+  color: #6a6a6a;
+  margin: 0.5rem 0rem;
+  margin-bottom: 0rem;
+  margin-left: 1rem;
+}
+
+.primaryText2 svg {
+  margin-bottom: 0.5rem;
+  margin-left: 0.2rem;
+}
+
+.aboutSectionContainer {
+  margin-top: 20rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aboutBackgroundImageContainer {
+  position: absolute;
+  left: -150px;
+  z-index: -2;
+}
+.aboutSectionImageContainer {
+  flex: 0.9;
+  margin-right: 1rem;
+}
+.aboutSectionTextContainer {
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+.primarySubheading {
+  font-weight: 700;
+  color: #ff3030;
+  font-size: 1.15rem;
+  border-color: black;
+}
+
+.aboutButtonsContainer {
+  margin-top: 2rem;
+  display: flex;
+}
+
+.watchVideoButton {
+  margin-left: 2rem;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-radius: 5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: #484848;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.watchVideoButton svg {
+  font-size: 3rem;
+  margin-right: 1rem;
+}
+
+.contactPageWrapper h1 {
+  max-width: 900px !important;
+}
+
+.contactPageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 6rem 0rem;
+}
+
+.contactFormContainer {
+  background-color: #f6f6f6;
+  max-width: 400px;
+  width: 100%;
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 5rem;
+}
+
+.contactFormContainer input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+}
+
+.footerWrapper {
+  margin: 6rem 0rem;
+  display: flex;
+  margin-top: 5rem;
+}
+
+.footerLogoContainer {
+  max-width: 53%;
+  margin-right: 5rem;
+}
+
+.footerLogoContainer svg {
+  margin-top: 0rem;
+  margin-right: 0.5rem;
+  font-size: 3rem !important;
+}
+
+.footerIcons {
+  margin-top: 2.5rem;
+}
+
+.footerIcons svg {
+  font-size: 3rem;
+  margin-right: 1.25rem;
+  color: #585858;
+}
+
+.footerSectionTwo {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.footerSectionColumns {
+  display: flex;
+  flex-direction: column;
+  min-width: 190px;
+}
+
+.footerSectionColumns span {
+  margin: 0.25rem 0rem;
+  font-weight: 600;
+  color: #4c4c4c;
+  cursor: pointer;
+}
+
+.testimonialSectionBottom {
+  margin-top: 2rem;
+  background-color: white;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 750px;
+  border-radius: 2rem;
+  flex-direction: column;
+  text-align: center;
+}
+
+.testimonialSectionBottom {
+  margin: 2rem auto;
+}
+
+.testimonialSectionBottom p {
+  font-weight: 700;
+  color: #515151;
+  max-width: 500px;
+  font-size: 1.1rem;
+  margin: 2rem 0rem;
+}
+
+.testimonialsStarsContainer svg {
+  margin: 0rem 0.25rem;
+  font-size: 1.5rem;
+  color: #fe9e0d;
+}
+
+.testimonialSectionBottom h2 {
+  margin-top: 1.5rem;
+}
+
+.workSectionWrapper {
+  margin-top: 15rem;
+}
+
+.workSectionTop p {
+  text-align: center;
+  max-width: 600px !important;
+}
+
+.workSectionTop h1 {
+  max-width: 700px !important;
+}
+
+.workSectionTop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.workSectionInfo {
+  width: 290px;
+  min-height: 350px;
+  background-color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 1rem;
+  color: #505050;
+  margin: 1rem 2rem;
+}
+
+.workSectionInfo h2 {
+  margin: 1rem 0rem;
+}
+
+.workSectionBottom {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.workSectionInfo p {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+@media (max-width: 1000px) {
+  .navbarLinksContainer a {
+    margin-right: 1rem;
+    font-size: 1rem;
+  }
+  .primaryButton {
+    font-size: 1rem;
+  }
+  .homeBannerImageContainer {
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 800px) {
+  .navLogoContainer {
+    max-width: 140px;
+  }
+  .navbarLinksContainer {
+    display: none;
+  }
+  .navbarMenuContainer {
+    display: flex;
+  }
+  .homeBannerImageContainer {
+    max-width: 450px;
+  }
+  .homeBannerContainer,
+  .aboutSectionContainer {
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+  }
+  .aboutSectionContainer {
+    flex-direction: column;
+  }
+  .homeContainer2 {
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+  }
+  .homeImageSection,
+  .aboutSectionImageContainer {
+    width: 100%;
+    max-width: 400px;
+  }
+  .homeImageContainer {
+    width: 100%;
+  }
+  .primaryHeading {
+    text-align: center;
+    max-width: 90%;
+  }
+  .primaryText {
+    text-align: center;
+    max-width: 80%;
+  }
+  .homeTextSection,
+  .aboutSectionTextContainer {
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+  }
+  .secondaryButton {
+    font-size: 1rem;
+    padding: 0.8rem 2rem;
+    cursor: pointer;
+  }
+  .aboutSectionContainer {
+    margin-top: 5rem !important;
+  }
+  .homeContainer2 {
+    margin-top: 5rem !important;
+  }
+  .aboutButtonsContainer {
+    justify-content: center;
+    flex-direction: column;
+  }
+  .primarySubheading {
+    text-align: center;
+  }
+  .watchVideoButton {
+    margin-left: 0rem !important;
+    margin-top: 1rem;
+    font-size: 1rem !important;
+  }
+  .watchVideoButton svg {
+    margin-right: 0.5rem !important;
+  }
+  .aboutSectionImageContainer {
+    margin-right: 0rem !important;
+  }
+  .workSectionWrapper {
+    margin-top: 5rem !important;
+  }
+  .workSectionBottom {
+    margin-top: 1rem !important;
+  }
+  .contactFormContainer {
+    padding: 0.5rem !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem !important;
+  }
+}
