@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "../actions/cartActions.js";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../actions/cartActions.js";
 
-const Product = (props) => {
+const Fudge = (props) => {
   const [quantity, setQuantity] = useState(1);
-  const [varient, setVariant] = useState("Pack of 4");
+  const [varient, setVariant] = useState("10 pieces");
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -14,7 +14,7 @@ const Product = (props) => {
   const dispatch = useDispatch();
 
   const addtocart = () => {
-    dispatch(addToCart(props.product, quantity, varient))
+    dispatch(addToCart(props.fudge, quantity, varient))
   }
 
   return (
@@ -22,11 +22,13 @@ const Product = (props) => {
       className="shadow-lg p-3 mb-5 bg-white rounded"
     >
       <div onClick={handleShow}>
-        <h1>{props.product.name}</h1>
+        <h1>{props.fudge.name}</h1>
         <img
-          src={props.product.image}
+          src={props.fudge.image}
           className="img-fluid"
           style={{ height: "200px", width: "200px" }}
+          loading="lazy"
+          alt={props.fudge.name}
         />
       </div>
 
@@ -41,7 +43,7 @@ const Product = (props) => {
             }}
           >
 
-            {props.product.varients.map((variantItem) => {
+            {props.fudge.varients.map((variantItem) => {
               return <option value={variantItem}>{variantItem}</option>
             })}
           </select>
@@ -66,7 +68,7 @@ const Product = (props) => {
       <div className="flex-container">
         <div className="m-10 w-100">
           <h1 className="mt-1">
-            Price: {props.product.prices[0][varient] * quantity} Rs/-
+            Price: {props.fudge.prices[0][varient] * quantity} Rs/-
           </h1>
         </div>
         <div className="m-10 w-100">
@@ -76,12 +78,12 @@ const Product = (props) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.product.name}</Modal.Title>
+          <Modal.Title>{props.fudge.name}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <img src={props.product.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} />
-          <p>{props.product.description}</p>
+          <img src={props.fudge.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.fudge.name} />
+          <p>{props.fudge.description}</p>
         </Modal.Body>
 
         <Modal.Footer>
@@ -94,4 +96,4 @@ const Product = (props) => {
   );
 };
 
-export default Product;
+export default Fudge;

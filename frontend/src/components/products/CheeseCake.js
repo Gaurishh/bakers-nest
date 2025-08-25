@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../actions/cartActions.js";
+import { addToCart } from "../../actions/cartActions.js";
 
-const JumboCookie = (props) => {
+const CheeseCake = (props) => {
   const [quantity, setQuantity] = useState(1);
-  const [varient, setVariant] = useState("1 Jumbo Cookie");
+  const [varient, setVariant] = useState("1 Jar/Cup");
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -14,7 +14,7 @@ const JumboCookie = (props) => {
   const dispatch = useDispatch();
 
   const addtocart = () => {
-    dispatch(addToCart(props.jumboCookie, quantity, varient))
+    dispatch(addToCart(props.cheeseCake, quantity, varient))
   }
 
   return (
@@ -22,13 +22,13 @@ const JumboCookie = (props) => {
       className="shadow-lg p-3 mb-5 bg-white rounded"
     >
       <div onClick={handleShow}>
-        <h1>{props.jumboCookie.name}</h1>
+        <h1>{props.cheeseCake.name}</h1>
         <img
-          src={props.jumboCookie.image}
+          src={props.cheeseCake.image}
           className="img-fluid"
           style={{ height: "200px", width: "200px" }}
           loading="lazy"
-          alt={props.jumboCookie.name}
+          alt={props.cheeseCake.name}
         />
       </div>
 
@@ -43,7 +43,7 @@ const JumboCookie = (props) => {
             }}
           >
 
-            {props.jumboCookie.varients.map((variantItem) => {
+            {props.cheeseCake.varients.map((variantItem) => {
               return <option value={variantItem}>{variantItem}</option>
             })}
           </select>
@@ -68,7 +68,7 @@ const JumboCookie = (props) => {
       <div className="flex-container">
         <div className="m-10 w-100">
           <h1 className="mt-1">
-            Price: {props.jumboCookie.prices[0][varient] * quantity} Rs/-
+            Price: {props.cheeseCake.prices[0][varient] * quantity} Rs/-
           </h1>
         </div>
         <div className="m-10 w-100">
@@ -78,12 +78,12 @@ const JumboCookie = (props) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.jumboCookie.name}</Modal.Title>
+          <Modal.Title>{props.cheeseCake.name}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <img src={props.jumboCookie.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.jumboCookie.name} />
-          <p>{props.jumboCookie.description}</p>
+          <img src={props.cheeseCake.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.cheeseCake.name} />
+          <p>{props.cheeseCake.description}</p>
         </Modal.Body>
 
         <Modal.Footer>
@@ -96,4 +96,4 @@ const JumboCookie = (props) => {
   );
 };
 
-export default JumboCookie;
+export default CheeseCake;

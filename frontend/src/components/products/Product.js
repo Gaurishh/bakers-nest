@@ -1,34 +1,32 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../actions/cartActions.js";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart } from "../../actions/cartActions.js";
 
-const Brownie = (props) => {
+const Product = (props) => {
   const [quantity, setQuantity] = useState(1);
-  const [varient, setVariant] = useState("1 Brownie");
+  const [varient, setVariant] = useState("Pack of 4");
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
+
   const dispatch = useDispatch();
 
   const addtocart = () => {
-    dispatch(addToCart(props.brownie, quantity, varient))
+    dispatch(addToCart(props.product, quantity, varient))
   }
 
   return (
-     <div
+    <div
       className="shadow-lg p-3 mb-5 bg-white rounded"
     >
       <div onClick={handleShow}>
-        <h1>{props.brownie.name}</h1>
+        <h1>{props.product.name}</h1>
         <img
-          src={props.brownie.image}
+          src={props.product.image}
           className="img-fluid"
           style={{ height: "200px", width: "200px" }}
-          loading="lazy"
-          alt={props.brownie.name}
         />
       </div>
 
@@ -43,7 +41,7 @@ const Brownie = (props) => {
             }}
           >
 
-            {props.brownie.varients.map((variantItem) => {
+            {props.product.varients.map((variantItem) => {
               return <option value={variantItem}>{variantItem}</option>
             })}
           </select>
@@ -68,7 +66,7 @@ const Brownie = (props) => {
       <div className="flex-container">
         <div className="m-10 w-100">
           <h1 className="mt-1">
-            Price: {props.brownie.prices[0][varient] * quantity} Rs/-
+            Price: {props.product.prices[0][varient] * quantity} Rs/-
           </h1>
         </div>
         <div className="m-10 w-100">
@@ -78,12 +76,12 @@ const Brownie = (props) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.brownie.name}</Modal.Title>
+          <Modal.Title>{props.product.name}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <img src={props.brownie.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.brownie.name} />
-          <p>{props.brownie.description}</p>
+          <img src={props.product.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} />
+          <p>{props.product.description}</p>
         </Modal.Body>
 
         <Modal.Footer>
@@ -96,4 +94,4 @@ const Brownie = (props) => {
   );
 };
 
-export default Brownie;
+export default Product;

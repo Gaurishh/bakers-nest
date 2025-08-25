@@ -1,8 +1,8 @@
 import React from "react";
-import AboutBackground from "../Assets/about-background.png";
-import AboutBackgroundImage2 from "../Assets/about-background-image2.jpg";
+import AboutBackground from "../../Assets/about-background.png";
+import AboutBackgroundImage2 from "../../Assets/about-background-image2.jpg";
 
-import styles from '../LandingPage.module.css';
+import styles from '../../LandingPage.module.css';
  
 const About = React.forwardRef((props, ref) => {
   return (

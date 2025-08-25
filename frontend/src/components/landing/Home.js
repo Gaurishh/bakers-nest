@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import BannerBackground from "../Assets/home-banner-background.png";
-import BannerImage2 from "../Assets/home-banner-image2.jpg";
+import BannerBackground from "../../Assets/home-banner-background.png";
+import BannerImage2 from "../../Assets/home-banner-image2.jpg";
 import { WhatsApp } from '@mui/icons-material';
-import LandingNavbar from './Navbar-Landing.js';
+import LandingNavbar from '../Navbar-Landing.js';
 import { FiArrowRight } from "react-icons/fi/index.esm.js";
 
-import styles from '../LandingPage.module.css';
+import styles from '../../LandingPage.module.css';
 
 const Home = React.forwardRef((props, ref) => {
 

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../actions/cartActions.js";
+import { addToCart } from "../../actions/cartActions.js";
 
-const TubCake = (props) => {
+const JumboCookie = (props) => {
   const [quantity, setQuantity] = useState(1);
-  const [varient, setVariant] = useState("1 Tub Cake");
+  const [varient, setVariant] = useState("1 Jumbo Cookie");
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -14,7 +14,7 @@ const TubCake = (props) => {
   const dispatch = useDispatch();
 
   const addtocart = () => {
-    dispatch(addToCart(props.tubCake, quantity, varient))
+    dispatch(addToCart(props.jumboCookie, quantity, varient))
   }
 
   return (
@@ -22,13 +22,13 @@ const TubCake = (props) => {
       className="shadow-lg p-3 mb-5 bg-white rounded"
     >
       <div onClick={handleShow}>
-        <h1>{props.tubCake.name}</h1>
+        <h1>{props.jumboCookie.name}</h1>
         <img
-          src={props.tubCake.image}
+          src={props.jumboCookie.image}
           className="img-fluid"
           style={{ height: "200px", width: "200px" }}
           loading="lazy"
-          alt={props.tubCake.name}
+          alt={props.jumboCookie.name}
         />
       </div>
 
@@ -43,7 +43,7 @@ const TubCake = (props) => {
             }}
           >
 
-            {props.tubCake.varients.map((variantItem) => {
+            {props.jumboCookie.varients.map((variantItem) => {
               return <option value={variantItem}>{variantItem}</option>
             })}
           </select>
@@ -68,7 +68,7 @@ const TubCake = (props) => {
       <div className="flex-container">
         <div className="m-10 w-100">
           <h1 className="mt-1">
-            Price: {props.tubCake.prices[0][varient] * quantity} Rs/-
+            Price: {props.jumboCookie.prices[0][varient] * quantity} Rs/-
           </h1>
         </div>
         <div className="m-10 w-100">
@@ -78,12 +78,12 @@ const TubCake = (props) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.tubCake.name}</Modal.Title>
+          <Modal.Title>{props.jumboCookie.name}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <img src={props.tubCake.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.tubCake.name} />
-          <p>{props.tubCake.description}</p>
+          <img src={props.jumboCookie.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.jumboCookie.name} />
+          <p>{props.jumboCookie.description}</p>
         </Modal.Body>
 
         <Modal.Footer>
@@ -96,4 +96,4 @@ const TubCake = (props) => {
   );
 };
 
-export default TubCake;
+export default JumboCookie;

@@ -1,8 +1,8 @@
 // import '../LandingPage.css';
-import Home from '../components/Home.js';
-import About from '../components/About.js';
-import Contact from '../components/Contact.js';
-import Footer from '../components/Footer.js';
+import Home from '../components/landing/Home.js';
+import About from '../components/landing/About.js';
+import Contact from '../components/landing/Contact.js';
+import Footer from '../components/landing/Footer.js';
 import { useRef } from 'react';
 
 import styles from '../LandingPage.module.css';

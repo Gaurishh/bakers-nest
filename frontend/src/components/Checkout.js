@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import {useDispatch, useSelector} from 'react-redux'
-import Loading from '../components/Loading.js'
+import Loading from './Loading.js'
 import Error from "./Error.js";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "react-bootstrap";

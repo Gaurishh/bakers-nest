@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProduct} from "../../actions/productActions.js";
 import Loading from "../Loading.js";
 import Error from '../Error.js';
@@ -75,22 +75,22 @@ function AddProduct() {
             <option value="Jumbo Cookie">Jumbo Cookie</option>
             <option value="Fudge">Fudge</option>
           </select>
-          {category==="Brownies" && <>
+          {category === "Brownies" && <>
           <input className="form-control" type="text" placeholder="1 Brownie" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          {category==="Tub Cake" && <>
+          {category === "Tub Cake" && <>
           <input className="form-control" type="text" placeholder="1 Tub Cake Price" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          {category==="Dry Cake" && <>
+          {category === "Dry Cake" && <>
           <input className="form-control" type="text" placeholder="1 Dry Cake Price" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          {category==="Cheese Cake" && <>
+          {category === "Cheese Cake" && <>
           <input className="form-control" type="text" placeholder="1 Cheese Cake Price" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          {category==="Jumbo Cookie" && <>
+          {category === "Jumbo Cookie" && <>
           <input className="form-control" type="text" placeholder="1 Jumbo Cookie Price" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
-          {category==="Fudge" && <>
+          {category === "Fudge" && <>
           <input className="form-control" type="text" placeholder="10 pieces" value={varient1Price} onChange={(e) => {setVarient1Price(e.target.value)}}/>
           </>}
           <button className="btn mt-4" type="submit">Add Product</button>

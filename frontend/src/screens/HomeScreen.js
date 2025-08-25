@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsByPage } from '../actions/productActions.js';
-import Brownie from '../components/Brownie.js';
-import TubCake from '../components/TubCake.js';
-import DryCake from '../components/DryCake.js';
-import CheeseCake from '../components/CheeseCake.js';
-import JumboCookie from '../components/JumboCookie.js';
-import Fudge from '../components/Fudge.js';
+import Brownie from '../components/products/Brownie.js';
+import TubCake from '../components/products/TubCake.js';
+import DryCake from '../components/products/DryCake.js';
+import CheeseCake from '../components/products/CheeseCake.js';
+import JumboCookie from '../components/products/JumboCookie.js';
+import Fudge from '../components/products/Fudge.js';
 import Loading from '../components/Loading.js';
 import Error from '../components/Error.js';
 import Filter from "../components/Filter.js";

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../actions/cartActions.js";
+import { addToCart } from "../../actions/cartActions.js";
 
-const CheeseCake = (props) => {
+const TubCake = (props) => {
   const [quantity, setQuantity] = useState(1);
-  const [varient, setVariant] = useState("1 Jar/Cup");
+  const [varient, setVariant] = useState("1 Tub Cake");
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -14,7 +14,7 @@ const CheeseCake = (props) => {
   const dispatch = useDispatch();
 
   const addtocart = () => {
-    dispatch(addToCart(props.cheeseCake, quantity, varient))
+    dispatch(addToCart(props.tubCake, quantity, varient))
   }
 
   return (
@@ -22,13 +22,13 @@ const CheeseCake = (props) => {
       className="shadow-lg p-3 mb-5 bg-white rounded"
     >
       <div onClick={handleShow}>
-        <h1>{props.cheeseCake.name}</h1>
+        <h1>{props.tubCake.name}</h1>
         <img
-          src={props.cheeseCake.image}
+          src={props.tubCake.image}
           className="img-fluid"
           style={{ height: "200px", width: "200px" }}
           loading="lazy"
-          alt={props.cheeseCake.name}
+          alt={props.tubCake.name}
         />
       </div>
 
@@ -43,7 +43,7 @@ const CheeseCake = (props) => {
             }}
           >
 
-            {props.cheeseCake.varients.map((variantItem) => {
+            {props.tubCake.varients.map((variantItem) => {
               return <option value={variantItem}>{variantItem}</option>
             })}
           </select>
@@ -68,7 +68,7 @@ const CheeseCake = (props) => {
       <div className="flex-container">
         <div className="m-10 w-100">
           <h1 className="mt-1">
-            Price: {props.cheeseCake.prices[0][varient] * quantity} Rs/-
+            Price: {props.tubCake.prices[0][varient] * quantity} Rs/-
           </h1>
         </div>
         <div className="m-10 w-100">
@@ -78,12 +78,12 @@ const CheeseCake = (props) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.cheeseCake.name}</Modal.Title>
+          <Modal.Title>{props.tubCake.name}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <img src={props.cheeseCake.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.cheeseCake.name} />
-          <p>{props.cheeseCake.description}</p>
+          <img src={props.tubCake.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={props.tubCake.name} />
+          <p>{props.tubCake.description}</p>
         </Modal.Body>
 
         <Modal.Footer>
@@ -96,4 +96,4 @@ const CheeseCake = (props) => {
   );
 };
 
-export default CheeseCake;
+export default TubCake;

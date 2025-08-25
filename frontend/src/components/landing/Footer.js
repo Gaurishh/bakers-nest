@@ -2,7 +2,7 @@ import React from "react";
 import { BsInstagram } from "react-icons/bs/index.esm.js";
 import { FaPhone } from "react-icons/fa/index.esm.js";
 
-import styles from '../LandingPage.module.css';
+import styles from '../../LandingPage.module.css';
 
 const Footer = () => {
   return (
