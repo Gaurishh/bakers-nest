@@ -38,6 +38,12 @@ router.post("/placeOrder", async (req, res) => {
         // console.log(totalAmount);
         // console.log(cartItems);
 
+        // Check if Razorpay credentials are configured
+        if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+            console.error('Razorpay credentials not configured');
+            return res.status(500).json({ message: "Payment gateway not configured" });
+        }
+
         const instance = new RazorPay({
             key_id: process.env.RAZORPAY_KEY_ID,
             key_secret: process.env.RAZORPAY_KEY_SECRET
