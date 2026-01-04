@@ -161,7 +161,7 @@ const CartScreen = () => {
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
                         />
-                        {(!success && !error) && <Checkout cartItems={cartItems} address={address} isFree={isFree} amount={subTotal} />}
+                        {(!success && !error) && <Checkout cartItems={cartItems} address={address} isFree={isFree} amount={subTotal} isEligible={isEligible} />}
                       </div>
                     )}
 

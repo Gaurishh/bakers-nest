@@ -11,7 +11,7 @@ const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000
 // Get Razorpay credentials from environment variables
 const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
 
-const Checkout = ({ cartItems, address, isFree, amount }) => {
+const Checkout = ({ cartItems, address, isFree, amount, isEligible }) => {
 
   const { user } = useAuth0();
 
@@ -60,6 +60,11 @@ const Checkout = ({ cartItems, address, isFree, amount }) => {
 
     if (!address) {
       alert("Please enter your shipping address.");
+      return;
+    }
+
+    if (isEligible && amount > 700) {
+      alert("Proceed with items worth 700 to place the first order!");
       return;
     }
 
