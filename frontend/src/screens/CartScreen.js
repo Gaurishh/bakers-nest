@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { deleteFromCart } from "../actions/cartActions.js";
 import Checkout from "../components/Checkout.js";
 import Navbar from '../components/Navbar.js';
-import Navbar from '../components/Navbar.js';
+
 import Success from '../components/Success.js';
 
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';

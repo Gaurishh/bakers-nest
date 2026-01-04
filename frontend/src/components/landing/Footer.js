@@ -15,7 +15,7 @@ const Footer = () => {
           <div style={{ display: "inline" }}>
             <FaPhone />
             <div style={{ float: "right" }}>
-              <p>8595714343</p>
+              <p>9999919685</p>
               <p>OR</p>
               <p>9999919685</p>
             </div>

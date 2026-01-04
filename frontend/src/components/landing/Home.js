@@ -48,8 +48,8 @@ const Home = React.forwardRef((props, ref) => {
             Shop now
             <FiArrowRight />
           </button>
-          <p className={styles.primaryText2}><a style={{ textDecoration: "none", color: "black" }} href="https://wa.me/c/918595714343" target="_blank" rel="noreferrer">...or Order through <p style={{ color: "#25D366", display: "inline", fontSize: "23px" }}>WhatApp <WhatsApp /></p></a></p>
-          <p style={{ marginLeft: "15px", marginTop: "0px" }} className={styles.primaryText2}>(8595714343)</p>
+          <p className={styles.primaryText2}><a style={{ textDecoration: "none", color: "black" }} href="https://wa.me/c/919999919685" target="_blank" rel="noreferrer">...or Order through <p style={{ color: "#25D366", display: "inline", fontSize: "23px" }}>WhatApp <WhatsApp /></p></a></p>
+          <p style={{ marginLeft: "15px", marginTop: "0px" }} className={styles.primaryText2}>(9999919685)</p>
         </div>
 
         <div className={styles.homeImageContainer}>

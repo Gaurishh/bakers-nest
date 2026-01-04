@@ -9,7 +9,7 @@ const Cancellation = () => {
       <div className={styles.textContent}>
         <h1>If an order has already started being prepared, then it cannot be cancelled. </h1>
         <h1>Ideally, an order should be cancelled within 30 minutes of order placement.</h1>
-        <h1>In any case, kindly contact us @8595714343 for requesting cancellation, and we shall refund your money if we have not already started preparing your order.</h1>
+        <h1>In any case, kindly contact us @9999919685 for requesting cancellation, and we shall refund your money if we have not already started preparing your order.</h1>
       </div>
     </div>
   )

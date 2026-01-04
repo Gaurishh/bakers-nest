@@ -42,7 +42,7 @@ const Privacy = () => {
 
         <p>If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us at:</p>
 
-        <p>8595714343 / bakersnest2022@gmail.com</p>
+        <p>9999919685 / bakersnest2022@gmail.com</p>
 
         <p>Thank you for choosing Baker's Nest. We are committed to protecting your privacy and providing you with the best possible experience on our website.</p>
 
