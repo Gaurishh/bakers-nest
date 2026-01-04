@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../actions/cartActions.js";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const ProductCard = ({ product, ...props }) => {
   // Determine default variant based on product category
@@ -30,15 +31,61 @@ const ProductCard = ({ product, ...props }) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
+
+  const { isAuthenticated, user } = useAuth0();
+  const [isEligible, setIsEligible] = useState(false);
+  const cartState = useSelector(state => state.cartReducer);
+  const { cartItems } = cartState;
+
+  React.useEffect(() => {
+    const checkEligibility = async () => {
+      if (isAuthenticated && user?.email) {
+        try {
+          // Reusing the endpoint, assuming same host/port.
+          // If this component is used where axios isn't default, using fetch.
+          const response = await fetch('http://localhost:8000/api/orders/check-eligibility', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: user.email })
+          });
+          const data = await response.json();
+          setIsEligible(data.eligible);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    checkEligibility();
+  }, [isAuthenticated, user]);
+
   const dispatch = useDispatch();
 
   const addtocart = () => {
+
+    if (isEligible) {
+      const restrictedCategories = ['Brownies', 'Jumbo Cookie']; // Add 'Cookies' if category name is that
+      // Assuming 'Jumbo Cookie' is the category name for cookies based on switch case in ProductCard.js,
+      // user said "only ONE type of cookies", switch case has "Jumbo Cookie", "Brownies".
+      // Use "Brownies" and "Jumbo Cookie".
+
+      if (restrictedCategories.includes(product.category)) {
+        // Check if cart has item of same category but different ID
+        const existingSameCategoryItem = cartItems.find(item =>
+          item.category === product.category && item._id !== product._id
+        );
+
+        if (existingSameCategoryItem) {
+          alert(`You can only order one type of ${product.category}!`);
+          return;
+        }
+      }
+    }
+
     dispatch(addToCart(product, quantity, varient))
   }
 
   return (
-     <div
+    <div
       className="shadow-lg p-3 mb-5 bg-white rounded"
     >
       <div onClick={handleShow}>
@@ -101,7 +148,7 @@ const ProductCard = ({ product, ...props }) => {
         </Modal.Header>
 
         <Modal.Body>
-          <img src={product.image} className="img-fluid" style={{height: '300px !important', width: '300px !important'}} alt={product.name} />
+          <img src={product.image} className="img-fluid" style={{ height: '300px !important', width: '300px !important' }} alt={product.name} />
           <p>{product.description}</p>
         </Modal.Body>
 

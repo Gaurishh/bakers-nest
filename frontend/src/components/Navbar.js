@@ -16,7 +16,6 @@ const Navbar = () => {
     var email = user["email"];
 
     isAdmin = (email===email1 || email===email2);
-
   }
 
   return (
