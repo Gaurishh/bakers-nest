@@ -5,7 +5,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { deleteFromCart } from "../actions/cartActions.js";
 import Checkout from "../components/Checkout.js";
 import Navbar from '../components/Navbar.js';
+import Navbar from '../components/Navbar.js';
 import Success from '../components/Success.js';
+
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
 const CartScreen = () => {
   const cartState = useSelector((state) => state.cartReducer);
@@ -35,8 +38,9 @@ const CartScreen = () => {
           // I will use fetch for minimal dependency or just rely on parent passing it if needed, 
           // but here I need to fetch. Let's assume I need to add import or use fetch. 
           // I'll add import axios at the top in a separate chunk or just use fetch.
+          // I'll add import axios at the top in a separate chunk or just use fetch.
           // actually, better to add axios import.
-          const response = await fetch('http://localhost:8000/api/orders/check-eligibility', {
+          const response = await fetch(`${API_BASE_URL}/api/orders/check-eligibility`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: user.email })

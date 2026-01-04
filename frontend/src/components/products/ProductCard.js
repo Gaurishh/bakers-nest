@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../actions/cartActions.js";
 import { useAuth0 } from "@auth0/auth0-react";
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+
 const ProductCard = ({ product, ...props }) => {
   // Determine default variant based on product category
   const getDefaultVariant = (category) => {
@@ -43,7 +45,7 @@ const ProductCard = ({ product, ...props }) => {
         try {
           // Reusing the endpoint, assuming same host/port.
           // If this component is used where axios isn't default, using fetch.
-          const response = await fetch('http://localhost:8000/api/orders/check-eligibility', {
+          const response = await fetch(`${API_BASE_URL}/api/orders/check-eligibility`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: user.email })

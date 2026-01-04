@@ -8,13 +8,13 @@ const Footer = () => {
   return (
     <div className={styles.footerWrapper}>
       <div className={styles.footerSectionOne}>
-        <div style={{display: "inline"}} className={styles.footerLogoContainer} id={styles.removed}>
-          <a href="https://www.instagram.com/bakersnest2022/" target="_blank" rel="noreferrer"><BsInstagram /> <p style={{display: "inline"}}>@bakersnest2022 </p></a>
+        <div style={{ display: "inline" }} className={styles.footerLogoContainer} id={styles.removed}>
+          <a href="https://www.instagram.com/bakersnest2022/" target="_blank" rel="noreferrer"><BsInstagram /> <p style={{ display: "inline" }}>@bakersnest2022 </p></a>
         </div>
-        <div style={{marginTop: "1.5rem"}} className={styles.footerLogoContainer} id={styles.removed}>
-          <div style={{display: "inline"}}>
+        <div style={{ marginTop: "1.5rem" }} className={styles.footerLogoContainer} id={styles.removed}>
+          <div style={{ display: "inline" }}>
             <FaPhone />
-            <div style={{float: "right"}}>
+            <div style={{ float: "right" }}>
               <p>8595714343</p>
               <p>OR</p>
               <p>9999919685</p>
