@@ -16,8 +16,6 @@ const Footer = () => {
             <FaPhone />
             <div style={{ float: "right" }}>
               <p>9999919685</p>
-              <p>OR</p>
-              <p>9999919685</p>
             </div>
           </div>
         </div>
