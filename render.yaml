@@ -24,6 +24,18 @@ services:
         sync: false # Set this manually in Render dashboard
       - key: CLOUDINARY_API_SECRET
         sync: false # Set this manually in Render dashboard
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false # Set this manually in Render dashboard
+      - key: AUTH0_DOMAIN
+        sync: false # Set this manually in Render dashboard
+      - key: AUTH0_CLIENT_ID
+        sync: false # Set this manually in Render dashboard
+      - key: ADMIN_EMAILS
+        sync: false # Set this manually in Render dashboard
+      - key: FREE_ORDER_EMAILS
+        sync: false # Set this manually in Render dashboard
+      - key: CORS_ORIGINS
+        sync: false # Set this manually in Render dashboard
     healthCheckPath: /ping
     autoDeploy: true
 
@@ -36,6 +48,18 @@ services:
     staticPublishPath: ./build
     rootDir: frontend
     envVars:
-      - key: REACT_BACKEND_APP_API_URL
+      - key: REACT_APP_BACKEND_URL
+        sync: false # Set this manually in Render dashboard
+      - key: REACT_APP_FRONTEND_URL
+        sync: false # Set this manually in Render dashboard
+      - key: REACT_APP_AUTH0_DOMAIN
+        sync: false # Set this manually in Render dashboard
+      - key: REACT_APP_AUTH0_CLIENT_ID
+        sync: false # Set this manually in Render dashboard
+      - key: REACT_APP_RAZORPAY_KEY_ID
+        sync: false # Set this manually in Render dashboard
+      - key: REACT_APP_EMAIL1
+        sync: false # Set this manually in Render dashboard
+      - key: REACT_APP_EMAIL2
         sync: false # Set this manually in Render dashboard
     autoDeploy: true

@@ -15,7 +15,7 @@ export const addToCart = (product, quantity, varient) => (dispatch, getState) =>
     }
     else {
         if (cartItem.quantity < 1) {
-            dispatch({ type: 'DELETE_FROM_CART', payload: product })
+            dispatch({ type: 'DELETE_FROM_CART', payload: cartItem })
         }
         else {
             dispatch({ type: 'ADD_TO_CART', payload: cartItem })

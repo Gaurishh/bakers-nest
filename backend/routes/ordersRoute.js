@@ -1,80 +1,46 @@
 const express = require('express');
 const router = express.Router();
-const RazorPay = require("razorpay");
 const crypto = require("crypto");
 const Order = require('../models/orderModel');
-const Product = require('../models/productModel');
+const { ORDER_STATUS, PLACED_ORDERS } = Order;
+const { requireAuth, requireAdmin, emailList } = require('../middleware/auth');
+const { priceCart, CartError } = require('../services/cartPricing');
+const razorpay = require('../services/razorpay');
 
-router.post("/check-eligibility", async (req, res) => {
-    const { email } = req.body;
-    const eligibleEmails = ['ritikahuja@gmail.com', 'defnotbroly2@gmail.com'];
+const FREE_ORDER_EMAILS = emailList(process.env.FREE_ORDER_EMAILS);
+const FREE_ORDER_LIMIT = 700;
 
-    if (!eligibleEmails.includes(email)) {
-        return res.json({ eligible: false });
-    }
+const isEligibleForFreeOrder = async (email) =>
+    FREE_ORDER_EMAILS.includes(email.toLowerCase()) &&
+    (await Order.countDocuments({ email, ...PLACED_ORDERS })) === 0;
 
+router.post("/check-eligibility", requireAuth, async (req, res) => {
     try {
-        const orderCount = await Order.countDocuments({ email: email });
-        if (orderCount === 0) {
-            return res.json({ eligible: true });
-        }
-        return res.json({ eligible: false });
+        return res.json({ eligible: await isEligibleForFreeOrder(req.user.email) });
     } catch (error) {
         return res.status(500).json({ message: "Error checking eligibility" });
     }
 });
 
-router.post("/placeOrder", async (req, res) => {
+router.post("/placeOrder", requireAuth, async (req, res) => {
     try {
-        const { cartItems, shippingAddress, userEmail } = req.body;
+        const { cartItems, shippingAddress } = req.body;
+        const { email, name } = req.user;
 
-        if (!cartItems || !Array.isArray(cartItems)) {
-            return res.status(400).json({ message: "Cart items are required" });
+        if (!shippingAddress || !String(shippingAddress).trim()) {
+            return res.status(400).json({ message: "Shipping address is required" });
         }
 
-        let totalAmount = 0;
+        const { orderItems, totalAmount } = await priceCart(cartItems);
+        const orderFields = { name, email, userId: email, orderItems, shippingAddress, isDelivered: false };
 
-        // Calculate total amount by fetching product prices from database
-        for (const item of cartItems) {
-            try {
-                const product = await Product.findById(item._id);
-                if (!product) {
-                    return res.status(400).json({ message: `Product with ID ${item._id} not found` });
-                }
-
-                const variantPrice = product.prices[0][item.varient];
-                const itemTotal = variantPrice * item.quantity;
-                totalAmount += itemTotal;
-
-            } catch (error) {
-                console.log(`Error processing product ${item._id}:`, error);
-                return res.status(500).json({ message: "Error processing product information" });
-            }
-        }
-
-        // Check Eligibility for Free Order
-        const eligibleEmails = ['ritikahuja@gmail.com', 'defnotbroly2@gmail.com'];
-        let isFreeOrder = false;
-
-        if (userEmail && eligibleEmails.includes(userEmail)) {
-            const orderCount = await Order.countDocuments({ email: userEmail });
-            if (orderCount === 0 && totalAmount <= 700) {
-                isFreeOrder = true;
-            }
-        }
-
-        if (isFreeOrder) {
-            const newOrder = new Order({
-                name: req.body.userName, // Assuming passed in body or could be fetched
-                email: userEmail,
-                userId: userEmail, // Consistently using email as userId based on existing code
-                orderItems: cartItems,
+        if (totalAmount <= FREE_ORDER_LIMIT && await isEligibleForFreeOrder(email)) {
+            const newOrder = await Order.create({
+                ...orderFields,
                 orderAmount: 0,
                 transactionId: 'FREE_PROMO_FIRST_ORDER',
-                shippingAddress: shippingAddress,
-                isDelivered: false
+                status: ORDER_STATUS.PAID,
             });
-            await newOrder.save();
             return res.status(200).json({
                 message: "Order placed successfully (Free First Order)",
                 isFree: true,
@@ -82,107 +48,83 @@ router.post("/placeOrder", async (req, res) => {
             });
         }
 
-
-        // Check if Razorpay credentials are configured
-        if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+        if (!razorpay.isConfigured()) {
             console.error('Razorpay credentials not configured');
             return res.status(500).json({ message: "Payment gateway not configured" });
         }
 
-        const instance = new RazorPay({
-            key_id: process.env.RAZORPAY_KEY_ID,
-            key_secret: process.env.RAZORPAY_KEY_SECRET
-        });
-
-        const options = {
-            amount: totalAmount * 100, // Convert to paise
+        const razorpayOrder = await razorpay.client().orders.create({
+            amount: Math.round(totalAmount * 100),
             currency: "INR",
             receipt: crypto.randomBytes(10).toString("hex"),
-        }
+        });
 
-        instance.orders.create(options, (error, order) => {
-            if (error) {
-                console.log(error);
-                return res.status(500).json({ message: "Something went wrong!" });
-            }
-            res.status(200).json({
-                data: order,
-                calculatedAmount: totalAmount
-            });
-        })
+        await Order.create({
+            ...orderFields,
+            orderAmount: totalAmount,
+            razorpayOrderId: razorpayOrder.id,
+            status: ORDER_STATUS.PENDING,
+        });
+
+        res.status(200).json({ data: razorpayOrder, calculatedAmount: totalAmount });
     } catch (error) {
+        if (error instanceof CartError) {
+            return res.status(400).json({ message: error.message });
+        }
         console.log(error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
 
-router.post("/verify", async (req, res) => {
+router.post("/verify", requireAuth, async (req, res) => {
     try {
-        const { response, user, cartItems, calculatedAmount } = req.body;
-        const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
+        const response = req.body.response || {};
 
-        const sign = razorpay_order_id + "|" + razorpay_payment_id;
-        const expectedSign = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET).update(sign.toString()).digest("hex");
-
-        if (razorpay_signature === expectedSign) {
-            const neworder = new Order({
-                name: user.name,
-                email: user.email,
-                userId: user.email,
-                orderItems: cartItems,
-                orderAmount: calculatedAmount,
-                transactionId: razorpay_payment_id,
-                shippingAddress: req.body.shippingAddress
-            })
-
-            neworder.save()
-            return res.status(200).json({ message: "Payment verified successfully!" });
-        }
-        else {
+        if (!razorpay.isValidPaymentSignature(response)) {
             return res.status(400).json({ message: "Invalid signature sent!" });
         }
+
+        const order = await razorpay.markOrderPaid(response.razorpay_order_id, response.razorpay_payment_id);
+        if (!order) {
+            return res.status(404).json({ message: "Order not found for this payment" });
+        }
+        return res.status(200).json({ message: "Payment verified successfully!", orderId: order._id });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal Server Error!" });
     }
 })
 
-router.post("/getuserorders", async (req, res) => {
-    const { userId } = req.body
+router.post("/getuserorders", requireAuth, async (req, res) => {
     try {
-        const orders = await Order.find({ userId: userId }).sort({ _id: -1 })
+        const orders = await Order.find({ userId: req.user.email, ...PLACED_ORDERS }).sort({ _id: -1 })
         res.send(orders)
     } catch (error) {
         return res.status(400).json({ message: 'Something went wrong' });
     }
 });
 
-router.get("/getallorders", async (req, res) => {
-
+router.get("/getallorders", requireAdmin, async (req, res) => {
     try {
-        const orders = await Order.find({}).sort({ createdAt: -1 })
+        const orders = await Order.find(PLACED_ORDERS).sort({ createdAt: -1 })
         res.send(orders)
     } catch (error) {
-        return res.status(400).json({ message: error });
+        return res.status(400).json({ message: 'Something went wrong' });
     }
-
 });
 
-router.post("/deliverorder", async (req, res) => {
-
-    const orderid = req.body.orderid
+router.post("/deliverorder", requireAdmin, async (req, res) => {
     try {
-        const order = await Order.findOne({ _id: orderid }).exec()
+        const order = await Order.findOne({ _id: req.body.orderid }).exec()
+        if (!order) {
+            return res.status(404).json({ message: "Order not found" });
+        }
         order.isDelivered = true
         await order.save()
         res.send('Order Delivered Successfully')
     } catch (error) {
-
         return res.status(400).json({ message: "Something went wrong!" });
-
     }
-
 });
-
 
 module.exports = router;

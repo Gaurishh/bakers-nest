@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProduct} from "../../actions/productActions.js";
 import Loading from "../Loading.js";
 import Error from '../Error.js';
-import axios from "axios";
+import api from "../../api/axios.js";
 
 function AddProduct() {
 
@@ -36,7 +36,7 @@ function AddProduct() {
     formData.append('image', file);
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000'}/api/upload/upload-image`, formData);
+      const response = await api.post(`/api/upload/upload-image`, formData);
       setImage(response.data.imageUrl);
       setUploading(false);
     } catch (error) {

@@ -17,7 +17,7 @@ const Ordersscreen = () => {
     const { orders, loading } = orderstate
 
     useEffect(() => {
-        dispatch(getUserOrders(user))
+        if (user) dispatch(getUserOrders())
     }, [dispatch, user])
 
     const formatDate = (dateString) => {

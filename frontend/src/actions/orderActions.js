@@ -1,14 +1,12 @@
-import axios from "axios";
+import api from "../api/axios.js";
 
-// Get the backend API URL from environment variable
-const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
-export const getUserOrders = (user) => async (dispatch, getState) => {
+export const getUserOrders = () => async (dispatch, getState) => {
 
     dispatch({type: 'GET_USER_ORDERS_REQUEST'});
 
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/orders/getuserorders`, {userId: user.email});
+        const response = await api.post(`/api/orders/getuserorders`);
         // console.log(response);
         dispatch({type: 'GET_USER_ORDERS_SUCCESS', payload: response.data});
     } catch (error) {
@@ -22,7 +20,7 @@ export const getAllOrders=()=>async (dispatch,getState)=>{
     dispatch({type:'GET_ALLORDERS_REQUEST'})
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/api/orders/getallorders`)
+        const response = await api.get(`/api/orders/getallorders`)
         
         dispatch({type:'GET_ALLORDERS_SUCCESS' , payload : response.data})
     } catch (error) {
@@ -34,10 +32,10 @@ export const getAllOrders=()=>async (dispatch,getState)=>{
 export const deliverOrder=(orderid)=>async dispatch=>{
 
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/orders/deliverorder` , {orderid})
+        const response = await api.post(`/api/orders/deliverorder` , {orderid})
         console.log(response);
         // alert('Order Delivered')
-        const orders = await axios.get(`${API_BASE_URL}/api/orders/getallorders`)
+        const orders = await api.get(`/api/orders/getallorders`)
         dispatch({type:'GET_ALLORDERS_SUCCESS' , payload: orders.data})
     } catch (error) {
         console.log(error);

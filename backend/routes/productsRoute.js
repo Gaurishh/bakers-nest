@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Product = require('../models/productModel');
+const { requireAdmin } = require('../middleware/auth');
 
 router.get("/getallproducts", async (req, res) => {
     try {
@@ -26,7 +27,7 @@ router.get("/getproductsbypage", async (req, res) => {
     }
 });
 
-router.post("/addproduct", async (req, res) => {
+router.post("/addproduct", requireAdmin, async (req, res) => {
     const product = req.body.product
 
     try {
@@ -58,7 +59,7 @@ router.post("/getproductbyid", async(req, res) => {
 
 })
 
-router.post("/editproduct", async (req, res) => {
+router.post("/editproduct", requireAdmin, async (req, res) => {
     const editedProduct = req.body.editedProduct;
 
     try {
@@ -78,7 +79,7 @@ router.post("/editproduct", async (req, res) => {
     }
 })
 
-router.post("/productvisibility", async (req, res) => {
+router.post("/productvisibility", requireAdmin, async (req, res) => {
     const productId = req.body.productId;
     const value = req.body.value;
 
@@ -94,7 +95,7 @@ router.post("/productvisibility", async (req, res) => {
     }
 })
 
-router.post("/deleteproduct", async(req, res) => {
+router.post("/deleteproduct", requireAdmin, async(req, res) => {
     const productid = req.body.productid
 
     try {

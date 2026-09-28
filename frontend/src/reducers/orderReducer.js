@@ -14,6 +14,8 @@ export const placeOrderReducer = (state = {}, action) => {
                 loading: false,
                 error: action.payload
             }
+        case 'PLACE_ORDER_RESET':
+            return {}
 
         default: return state;
     }

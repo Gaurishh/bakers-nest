@@ -7,15 +7,14 @@ import Checkout from "../components/Checkout.js";
 import Navbar from '../components/Navbar.js';
 
 import Success from '../components/Success.js';
-
-const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+import api from '../api/axios.js';
 
 const CartScreen = () => {
   const cartState = useSelector((state) => state.cartReducer);
   const cartItems = cartState.cartItems;
 
   const orderState = useSelector((state) => state.placeOrderReducer)
-  const { success, error } = orderState
+  const { success } = orderState
 
   var subTotal = cartItems.reduce((x, item) => x + item.price, 0);
 
@@ -32,20 +31,7 @@ const CartScreen = () => {
     const checkEligibility = async () => {
       if (isAuthenticated && user?.email) {
         try {
-          // Assuming axios is available or we need to import it. 
-          // Since it's not imported, let's use fetch or ensure axios is imported.
-          // Looking at imports, axios is NOT imported in CartScreen.js, but it is used in Checkout.js.
-          // I will use fetch for minimal dependency or just rely on parent passing it if needed, 
-          // but here I need to fetch. Let's assume I need to add import or use fetch. 
-          // I'll add import axios at the top in a separate chunk or just use fetch.
-          // I'll add import axios at the top in a separate chunk or just use fetch.
-          // actually, better to add axios import.
-          const response = await fetch(`${API_BASE_URL}/api/orders/check-eligibility`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: user.email })
-          });
-          const data = await response.json();
+          const { data } = await api.post('/api/orders/check-eligibility');
           setIsEligible(data.eligible);
         } catch (e) {
           console.error(e);
@@ -137,8 +123,8 @@ const CartScreen = () => {
               <div>
                 {isAuthenticated ? (
                   <>
-                    {(!success && !error) && (
-                      isEligible ? (
+                    {!success && (
+                      isFree ? (
                         <>
                           <h2 style={{ fontSize: "40px" }}>Total: <span style={{ color: 'green' }}>FREE</span></h2>
                           <p style={{ color: 'green', fontWeight: 'bold' }}>Your first order is on us!</p>
@@ -149,7 +135,7 @@ const CartScreen = () => {
                     )}
 
                     {!showAddressInput ? (
-                      (!success && !error) && <button className="btn btn-primary" onClick={() => {
+                      !success && <button className="btn btn-primary" onClick={() => {
                         if (isEligible && subTotal > 700) {
                           alert("Proceed with items worth 700 to place the first order!");
                         } else {
@@ -165,11 +151,11 @@ const CartScreen = () => {
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
                         />
-                        {(!success && !error) && <Checkout cartItems={cartItems} address={address} isFree={isFree} amount={subTotal} isEligible={isEligible} />}
+                        {!success && <Checkout cartItems={cartItems} address={address} isFree={isFree} amount={subTotal} isEligible={isEligible} />}
                       </div>
                     )}
 
-                    {(!success && !error) && <>
+                    {!success && <>
                       <p style={{ fontStyle: "italic", marginTop: "20px" }}>Note: Put your correct address above.</p>
 
                     </>}

@@ -3,22 +3,26 @@ dotenv.config();
 
 const cors = require("cors");
 const express = require("express");
-const Product = require("./models/productModel");
 const db = require("./db.js"); // Database connection
 
 const app = express();
 
 // Middleware
+const allowedOrigins = (process.env.CORS_ORIGINS || "").split(",").map((o) => o.trim()).filter(Boolean);
 app.use(cors({
-  origin: "*",
+  origin: allowedOrigins.length ? allowedOrigins : "*",
 }));
-
-app.use(express.json()); // To parse JSON request bodies
 
 // Routes
 const productsRoute = require("./routes/productsRoute");
 const ordersRoute = require("./routes/ordersRoute");
 const uploadRoute = require("./routes/uploadRoute");
+const razorpayWebhookRoute = require("./routes/razorpayWebhookRoute");
+
+// Must be registered before express.json so the webhook signature is checked against the raw body
+app.use("/api/webhooks/razorpay", express.raw({ type: "application/json" }), razorpayWebhookRoute);
+
+app.use(express.json()); // To parse JSON request bodies
 
 app.use("/api/products", productsRoute);
 app.use("/api/orders", ordersRoute);
