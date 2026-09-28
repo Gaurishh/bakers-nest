@@ -1,15 +1,14 @@
 import React from "react";
-import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux'
 import Loading from './Loading.js'
 import Error from "./Error.js";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "react-bootstrap";
+import api from "../api/axios.js";
 
-// Get the backend API URL from environment variable
-const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
-// Get Razorpay credentials from environment variables
 const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
+
+const errorMessage = (error, fallback) => error?.response?.data?.message || fallback;
 
 const Checkout = ({ cartItems, address, isFree, amount, isEligible }) => {
 
@@ -17,35 +16,34 @@ const Checkout = ({ cartItems, address, isFree, amount, isEligible }) => {
 
   const orderState = useSelector((state) => state.placeOrderReducer)
   const { loading, error, success } = orderState
-  const cartState = useSelector((state) => state.cartReducer)
 
   const dispatch = useDispatch()
 
-  const initPayment = async (data) => {
+  const placeOrderFailed = (message) => dispatch({ type: 'PLACE_ORDER_FAILED', payload: message })
+
+  const initPayment = (data) => {
     const options = {
       key: RAZORPAY_KEY_ID,
       amount: data.amount,
       currency: data.currency,
-      name: "Cart Items",
-      description: "Test Transaction",
+      name: "Baker's Nest",
+      description: "Baker's Nest order",
       order_id: data.id,
+      prefill: { name: user.name, email: user.email },
       handler: async (response) => {
         dispatch({ type: 'PLACE_ORDER_REQUEST' })
         try {
-          const verifyUrl = `${API_BASE_URL}/api/orders/verify`;
-          await axios.post(verifyUrl, {
-            response: response,
-            user: user,
-            cartItems: cartState.cartItems,
-            calculatedAmount: data.calculatedAmount,
-            shippingAddress: address
-          });
+          await api.post('/api/orders/verify', { response });
           dispatch({ type: 'PLACE_ORDER_SUCCESS' })
           dispatch({ type: "EMPTY_CART" })
+          localStorage.removeItem('cartItems')
         } catch (error) {
-          dispatch({ type: 'PLACE_ORDER_FAILED' })
           console.log(error);
+          placeOrderFailed("We received your payment but could not confirm it yet. It will appear in My Orders shortly — please don't pay again.");
         }
+      },
+      modal: {
+        ondismiss: () => dispatch({ type: 'PLACE_ORDER_RESET' }),
       },
       theme: {
         color: "#FF0000"
@@ -53,12 +51,15 @@ const Checkout = ({ cartItems, address, isFree, amount, isEligible }) => {
     };
 
     const rzp1 = new window.Razorpay(options);
+    rzp1.on('payment.failed', (response) => {
+      placeOrderFailed(response.error?.description || 'Payment failed, please try again.');
+    });
     rzp1.open();
   }
 
   const handlePayment = async () => {
 
-    if (!address) {
+    if (!address.trim()) {
       alert("Please enter your shipping address.");
       return;
     }
@@ -68,33 +69,32 @@ const Checkout = ({ cartItems, address, isFree, amount, isEligible }) => {
       return;
     }
 
+    dispatch({ type: 'PLACE_ORDER_REQUEST' })
     try {
-      const orderUrl = `${API_BASE_URL}/api/orders/placeOrder`;
-      const { data } = await axios.post(orderUrl, {
-        cartItems: cartState.cartItems,
+      const { data } = await api.post('/api/orders/placeOrder', {
+        cartItems: cartItems.map(({ _id, varient, quantity }) => ({ _id, varient, quantity })),
         shippingAddress: address,
-        userEmail: user.email,
-        userName: user.name
       });
 
       if (data.isFree) {
         dispatch({ type: 'PLACE_ORDER_SUCCESS' })
         dispatch({ type: "EMPTY_CART" })
+        localStorage.removeItem('cartItems')
       } else {
         initPayment(data.data)
       }
 
     } catch (error) {
-      dispatch({ type: 'PLACE_ORDER_FAILED' })
       console.log(error);
+      placeOrderFailed(errorMessage(error, 'Something went wrong, try again'));
     }
   }
 
   return (
     <div>
       {loading && <Loading />}
-      {error && <Error errror='Something went wrong, try again' />}
-      {(!success && !error) && <Button onClick={handlePayment}>{isFree ? 'Place Order (Free)' : 'Pay Now'}</Button>}
+      {error && <Error error={error} />}
+      {(!success && !loading) && <Button onClick={handlePayment}>{isFree ? 'Place Order (Free)' : 'Pay Now'}</Button>}
     </div>
   );
 };

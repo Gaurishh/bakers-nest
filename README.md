@@ -170,6 +170,7 @@ bakers-nest/
 - `POST /api/orders/placeOrder` - Create new order
 - `POST /api/orders/verify` - Verify payment
 - `POST /api/orders/getuserorders` - Get user order history
+- `POST /api/webhooks/razorpay` - Razorpay payment webhook
 
 ### File Upload
 
@@ -205,10 +206,17 @@ The application is deployed on **Render** with the following configuration:
 - `CLOUDINARY_CLOUD_NAME`: Cloudinary cloud name
 - `CLOUDINARY_API_KEY`: Cloudinary API key
 - `CLOUDINARY_API_SECRET`: Cloudinary API secret
+- `RAZORPAY_WEBHOOK_SECRET`: Secret of the Razorpay webhook pointed at `/api/webhooks/razorpay` (events `payment.captured`, `order.paid`)
+- `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`: Same Auth0 app as the frontend; used to verify login tokens
+- `ADMIN_EMAILS`: Comma-separated admin emails
+- `FREE_ORDER_EMAILS`: Comma-separated emails eligible for a free first order
+- `CORS_ORIGINS`: Comma-separated allowed origins (unset allows any)
+
+See `backend/.env.example`.
 
 ### Frontend Environment Variables
 
-- `REACT_BACKEND_APP_API_URL`: Backend API endpoint
+See `frontend/.env.example`. Everything here is bundled into public JavaScript, so it must never contain a secret.
 
 ## 📱 Features in Detail
 
